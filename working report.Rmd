@@ -1,0 +1,46 @@
+---
+title: "STAT 107 Final Project—Working Report"
+output: html_document
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Part 0: Determining Valid Hiragana and Katakana Characters
+
+One peculiar thing about the unicode characters for Hiragana and Katakana is that, when a text file is viewed on an internet browser, using Crtl+F to search for some character in Hiragana will counts as the same character in Katakana, and vice versa. This seems to imply an overlap between the manner by which Hiragana and Katakana characters are categorized—of which means that there could be double-counting when running an algorithm to see the number of these characters in a given piece of literature. In addition, both Hiragana and Katakana have large and small characters for the same sounds—some of which run into the same overlapping issues when using the Crtl+F search feature. Thus, it is imperative to determine which characters in Hiragana/Katakana R deems as unique before analyzing the novels. 
+
+This is done through a fairly simple algorithm shown below.
+
+Both lists of characters are taken from the Wikipedia page of Hiragana and Katakana Unicode characters. 
+
+```{r cars}
+# [STEP 1]: Initialize Vectors with ALL Hiragana and Katakana characters.
+
+all_hiragana <- c("ぁ", "あ", "ぃ", "い", "ぅ", "う", "ぇ", "え", "ぉ", "お", "か", "が", "き", "ぎ", "く", "ぐ", "け", "げ", "こ", "ご", "さ", "ざ", "し", "じ", "す", "ず", "せ", "ぜ", "そ", "ぞ", "た", "だ", "ち", "ぢ", "っ", "つ", "づ", "て", "で", "と", "ど", "な", "に", "ぬ", "ね", "の", "は", "ば", "ぱ", "ひ", "び", "ぴ", "ふ", "ぶ", "ぷ", "へ", "べ", "ぺ", "ほ", "ぼ", "ぽ", "ま", "み", "む", "め", "も", "ゃ", "や", "ゅ", "ゆ", "ょ", "よ", "ら", "り", "る", "れ", "ろ", "ゎ", "わ", "ゐ", "ゑ", "を", "ん", "ゔ", "ゕ", "ゖ")
+
+all_katakana <- c("゠", "ァ", "ア", "ィ", "イ", "ゥ", "ウ", "ェ", "エ", "ォ", "オ", "カ", "ガ", "キ", "ギ", "ク", "グ", "ケ", "ゲ", "コ", "ゴ", "サ", "ザ", "シ", "ジ", "ス", "ズ", "セ", "ゼ", "ソ", "ゾ", "タ", "ダ", "チ", "ヂ", "ッ", "ツ", "ヅ", "テ", "デ", "ト", "ド", "ナ", "ニ", "ヌ", "ネ", "ノ", "ハ", "バ", "パ", "ヒ", "ビ", "ピ", "フ", "ブ", "プ", "ヘ", "ベ", "ペ", "ホ", "ボ", "ポ", "マ", "ミ", "ム", "メ", "モ", "ャ", "ヤ", "ュ", "ユ", "ョ", "ヨ", "ラ", "リ", "ル", "レ", "ロ", "ヮ", "ワ", "ヰ", "ヱ", "ヲ", "ン", "ヴ", "ヵ", "ヶ", "ヷ", "ヸ", "ヹ", "ヺ", "・", "ー", "ヽ", "ヾ", "ヿ")
+
+mixed_hira_kata <- c()
+
+# [STEP 2]: Determine which of the Hiragana characters are unique:
+for(ch in all_hiragana) {
+  if (!(ch %in% mixed_hira_kata)){
+    mixed_hira_kata <- c(mixed_hira_kata, ch)
+  }
+}
+
+# [STEP 3]: Determine which Katakana characters are unique:
+for(ch in all_katakana) {
+  if (!(ch %in% mixed_hira_kata)){
+    mixed_hira_kata <- c(mixed_hira_kata, ch)
+  }
+}
+```
+
+Through this experiment, we we have verified that, in R, Hiragana characters and Katakana characters are categorized completely separately. In addition, small and large versions of the same characters are counted as two distinct characters. This means that, to determine the number of Hiragana/Katakana characters within a novel, one can compare the novels to the `all_hiragana` and `all_katakana` vectors respectively without any issue. With this experiment complete, one can finally move on to analyzing the novels.
+
+
+## Part 1:
