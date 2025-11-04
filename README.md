@@ -4,7 +4,7 @@ This is the repository for STAT 107 Group 11's Final Project.
 ## Novels 
 The novels used for this project are the following:
 
-From Guttenberg:
+From Gutenberg:
 1. お目出たき人 by Saneatsu Mushanokoji: https://www.gutenberg.org/ebooks/31757
 2. 羹 by Jun'ichiro Tanizaki: https://www.gutenberg.org/ebooks/36459
 3. 幽霊書店 by Christopher Morley: https://www.gutenberg.org/ebooks/41325
