@@ -1,29 +1,39 @@
 # STAT107_Final_Project
-This is the repository for STAT 107 Group 11's Final Project.  
+This is the repository for STAT 107 Group 11's Final Project. 
 
 ## Novels 
-The novels used for this project are the following:
+The novels used for this project (and their respective file names) are the following:
 
 From Gutenberg:
-1. お目出たき人 by Saneatsu Mushanokoji: https://www.gutenberg.org/ebooks/31757
-2. 羹 by Jun'ichiro Tanizaki: https://www.gutenberg.org/ebooks/36459
-3. 幽霊書店 by Christopher Morley: https://www.gutenberg.org/ebooks/41325
-4. 下宿人 by Marie Belloc Lowndes: https://www.gutenberg.org/ebooks/32978
-5. 友情 by Saneatsu Mushanokoji: https://www.gutenberg.org/ebooks/33307
-6. 刺靑 by Jun'ichiro Tanizaki: https://www.gutenberg.org/ebooks/31617
-7. 火星の記憶 by Raymond F. Jones: https://www.gutenberg.org/ebooks/36358
-8. 惡魔 by Jun'ichiro Tanizaki: https://www.gutenberg.org/ebooks/37605
-9. 法螺男爵旅土産 by Kuni Sasaki: https://www.gutenberg.org/ebooks/34084
-10. 續惡魔 by Jun'ichiro Tanizaki: https://www.gutenberg.org/ebooks/37626
 
-From Aozora: 
-1. 	人間の本性 by Shin, Katakami: https://www.aozora.gr.jp/cards/000492/card42252.html
-2. 	化学改革の大略 by Shimizu, Usaburo: https://www.aozora.gr.jp/cards/001508/card51403.html
-3.  枯尾花 by Sekine, Mokuan: https://www.aozora.gr.jp/cards/001358/card49253.html
-4. 	将棋の話 by Shigeru, Tonomura: https://www.aozora.gr.jp/cards/001499/card52185.html
-5.  色盲検査表の話 by Shinobu, Ishihara: https://www.aozora.gr.jp/cards/001742/card55751.html
-6. 	父八雲を語る by Iwao, Inagaki: https://www.aozora.gr.jp/cards/001961/card58832.html
-7. 	おくのほそ道 by Matsuo, Basho: https://www.aozora.gr.jp/cards/002240/card61619.html
-8. 	青バスの女 by Tatsuno, Kyushi: https://www.aozora.gr.jp/cards/001782/card56514.html
-9.  古事記物語 by Otomo, Yasumaro: https://www.aozora.gr.jp/cards/000107/card1530.html
-10.  女の顔 by Kuroda, Seiki: https://www.aozora.gr.jp/cards/000257/card1425.html
+| File Name | Novel Name | Author | Novel Source |
+| --- | --- | --- | --- |
+| "pg36358.txt" | お目出たき人 | Saneatsu Mushanokoji | https://www.gutenberg.org/ebooks/31757 |
+| "pg37605.txt" | 羹 | Jun'ichiro Tanizaki | https://www.gutenberg.org/ebooks/36459 |
+| "pg34084.txt" | 幽霊書店 | Christopher Morley | https://www.gutenberg.org/ebooks/41325 |
+| "pg37626.txt" | 下宿人 | Marie Belloc Lowndes | https://www.gutenberg.org/ebooks/32978 |
+| "pg31757.txt" | 友情 | Saneatsu Mushanokoji | https://www.gutenberg.org/ebooks/33307 |
+| "pg36459.txt" | 刺靑 | Jun'ichiro Tanizaki | https://www.gutenberg.org/ebooks/31617 |
+| "pg41325.txt" | 火星の記憶 | Raymond F. Jones | https://www.gutenberg.org/ebooks/36358 |
+| "pg32978.txt" | 惡魔 | Jun'ichiro Tanizaki | https://www.gutenberg.org/ebooks/37605 |
+| "pg33307.txt" | 法螺男爵旅土産 | Kuni Sasaki | https://www.gutenberg.org/ebooks/34084 | 
+| "pg31617.txt" | 續惡魔 | Jun'ichiro Tanizaki | https://www.gutenberg.org/ebooks/37626 |
+
+From Aozora:
+| File Name | Novel Name | Author | Novel Source |
+| --- | --- | --- | --- |
+| "onnano_kao.txt" | 人間の本性 | Shin, Katakami | https://www.aozora.gr.jp/cards/000492/card42252.html |
+| "ningenno_honsho.txt" | 化学改革の大略 | Shimizu, Usaburo | https://www.aozora.gr.jp/cards/001508/card51403.html |
+| "kagaku_kaikakuno_tairyaku.txt" | 枯尾花 | Sekine, Mokuan | https://www.aozora.gr.jp/cards/001358/card49253.html |
+| "kareobana.txt" | 将棋の話 | Shigeru, Tonomura | https://www.aozora.gr.jp/cards/001499/card52185.html |
+| "shogino_hanashi.txt" | 色盲検査表の話 | Shinobu, Ishihara | https://www.aozora.gr.jp/cards/001742/card55751.html |
+| "shikimo_kensahyo.txt" | 父八雲を語る | Iwao, Inagaki | https://www.aozora.gr.jp/cards/001961/card58832.html |
+| "chichi_yakumoo_kataru.txt" | おくのほそ道 | Matsuo, Basho | https://www.aozora.gr.jp/cards/002240/card61619.html |
+| "02okunohosomichi.txt" | 青バスの女 | Tatsuno, Kyushi | https://www.aozora.gr.jp/cards/001782/card56514.html |
+| "ao_basuno_onna.txt" | 古事記物語 | Otomo, Yasumaro | https://www.aozora.gr.jp/cards/000107/card1530.html |
+| "kojiki_monogatari.txt" | 女の顔 | Kuroda, Seiki | https://www.aozora.gr.jp/cards/000257/card1425.html |
+
+## Files
+1. `README.md`: This file. Provides a general overview of the project, as well as definitions for the files within this Repository.
+2. `Final Report.Rmd`: R markup file. Contains the
+3. `data`: Folder that contains the novels that are used for this project. The files that coorespond to the given novels are defined above. 
