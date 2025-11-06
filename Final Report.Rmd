@@ -11,14 +11,16 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Abstract
 In Japanese, there are three main writing systems: Hiragana, Katakana, and Kanji. Hiragana and Katakana are both phonetic-based (i.e., every character represents a sound), while Kanji is pictorial (i.e., each character represents a concept). While each writing system represents the same set of sounds, for individuals learning how to read in Japanese, it is often confusing to know which writing system to learn first. Should an individual's goal in learning Japanese be to read novels, it is interesting to know what writing system one would encounter the most—as to most efficiently tailor their learning experience to meet their goals. 
 
-Thus, we plan to sample 20 books from the online sources Gutenberg and Aozora websites to determine the overall distribution of Hiragana, Katakana, and Kanji within them. 
+Thus, we plan to sample 20 books from the online sources Gutenberg and Aozora to analyze the overall distribution of Hiragana, Katakana, and Kanji within them. 
 
 
 ## Part 1: Data 
 
 ### Part 1.1: Japanese Literature
 
-For this project, we will observe several novels from both the Gutenberg[www.gutenberg.org] website and the Aozora[https://www.aozora.gr.jp/.] website. We chose these sites due to the types of literature within them. From what we observed, the Japanese selection on Gutenberg mostly consists of works translated TO Japanese, while Aozora mostly consists of works written ORIGINALLY in Japanese. Thus, collecting a sample from both of the sites can provide insights as to how the distribution of each of the three writings systems differ between originally-Japanese works and works translated to Japanese. 
+For this project, we will observe several novels from both the (Gutenberg)[www.gutenberg.org] website and the (Aozora)[https://www.aozora.gr.jp/.] website. Gutenberg is an English-based online library consisting of several eBooks in the public domain. Likewise, Aozora is a Japanese-based online library serving the same purpose. 
+
+We chose these sites due to the types of literature within them. From what we observed, the Japanese selection on Gutenberg mostly consists of works translated TO Japanese, while Aozora mostly consists of works written ORIGINALLY in Japanese. Thus, collecting a sample from both of the sites can provide insights as to how the distribution of each of the three writings systems differ between originally-Japanese works and works translated to Japanese. 
 
 We randomly selected 10 novels from both websites. However, this was done differently for both websites. For the noveles on the Gutenberg website, a simple random selection of all the Japanese language books on the site was conducted.
 However, this was not necessairly possible on Aozora—as the only way to see a masterlist of all of the novels is through sorting by authors. Thus, we ran a SRS on the authors that are not under copyright, and randomly select one of their novels (if they have multiple novels listed under their authorship).
@@ -27,49 +29,37 @@ The novels we ended up selecting  (and their file names) are the following:
 
 From Gutenberg:
 
-1. ("pg36358.txt")  お目出たき人 by Saneatsu Mushanokoji: https://www.gutenberg.org/ebooks/31757
+| File Name | Novel Name | Author | Novel Source |
+| --- | --- | --- | --- |
+| "pg36358.txt" | お目出たき人 | Saneatsu Mushanokoji | https://www.gutenberg.org/ebooks/31757 |
+| "pg37605.txt" | 羹 | Jun'ichiro Tanizaki | https://www.gutenberg.org/ebooks/36459 |
+| "pg34084.txt" | 幽霊書店 | Christopher Morley | https://www.gutenberg.org/ebooks/41325 |
+| "pg37626.txt" | 下宿人 | Marie Belloc Lowndes | https://www.gutenberg.org/ebooks/32978 |
+| "pg31757.txt" | 友情 | Saneatsu Mushanokoji | https://www.gutenberg.org/ebooks/33307 |
+| "pg36459.txt" | 刺靑 | Jun'ichiro Tanizaki | https://www.gutenberg.org/ebooks/31617 |
+| "pg41325.txt" | 火星の記憶 | Raymond F. Jones | https://www.gutenberg.org/ebooks/36358 |
+| "pg32978.txt" | 惡魔 | Jun'ichiro Tanizaki | https://www.gutenberg.org/ebooks/37605 |
+| "pg33307.txt" | 法螺男爵旅土産 | Kuni Sasaki | https://www.gutenberg.org/ebooks/34084 | 
+| "pg31617.txt" | 續惡魔 | Jun'ichiro Tanizaki | https://www.gutenberg.org/ebooks/37626 |
 
-2. ("pg37605.txt")  羹 by Jun'ichiro Tanizaki: https://www.gutenberg.org/ebooks/36459
-
-3. ("pg34084.txt")  幽霊書店 by Christopher Morley: https://www.gutenberg.org/ebooks/41325
-
-4. ("pg37626.txt")  下宿人 by Marie Belloc Lowndes: https://www.gutenberg.org/ebooks/32978
-
-5. ("pg31757.txt")  友情 by Saneatsu Mushanokoji: https://www.gutenberg.org/ebooks/33307
-
-6. ("pg36459.txt")  刺靑 by Jun'ichiro Tanizaki: https://www.gutenberg.org/ebooks/31617
-
-7. ("pg41325.txt")  火星の記憶 by Raymond F. Jones: https://www.gutenberg.org/ebooks/36358
-
-8. ("pg32978.txt")  惡魔 by Jun'ichiro Tanizaki: https://www.gutenberg.org/ebooks/37605
-
-9. ("pg33307.txt")  法螺男爵旅土産 by Kuni Sasaki: https://www.gutenberg.org/ebooks/34084
-
-10. ("pg31617.txt") 續惡魔 by Jun'ichiro Tanizaki: https://www.gutenberg.org/ebooks/37626
-
+---
 
 From Aozora:
 
-1. ("onnano_kao.txt")                 人間の本性 by Shin, Katakami: https://www.aozora.gr.jp/cards/000492/card42252.html
+| File Name | Novel Name | Author | Novel Source |
+| --- | --- | --- | --- |
+| "onnano_kao.txt" | 人間の本性 | Shin, Katakami | https://www.aozora.gr.jp/cards/000492/card42252.html |
+| "ningenno_honsho.txt" | 化学改革の大略 | Shimizu, Usaburo | https://www.aozora.gr.jp/cards/001508/card51403.html |
+| "kagaku_kaikakuno_tairyaku.txt" | 枯尾花 | Sekine, Mokuan | https://www.aozora.gr.jp/cards/001358/card49253.html |
+| "kareobana.txt" | 将棋の話 | Shigeru, Tonomura | https://www.aozora.gr.jp/cards/001499/card52185.html |
+| "shogino_hanashi.txt" | 色盲検査表の話 | Shinobu, Ishihara | https://www.aozora.gr.jp/cards/001742/card55751.html |
+| "shikimo_kensahyo.txt" | 父八雲を語る | Iwao, Inagaki | https://www.aozora.gr.jp/cards/001961/card58832.html |
+| "chichi_yakumoo_kataru.txt" | おくのほそ道 | Matsuo, Basho | https://www.aozora.gr.jp/cards/002240/card61619.html |
+| "02okunohosomichi.txt" | 青バスの女 | Tatsuno, Kyushi | https://www.aozora.gr.jp/cards/001782/card56514.html |
+| "ao_basuno_onna.txt" | 古事記物語 | Otomo, Yasumaro | https://www.aozora.gr.jp/cards/000107/card1530.html |
+| "kojiki_monogatari.txt" | 女の顔 | Kuroda, Seiki | https://www.aozora.gr.jp/cards/000257/card1425.html |
 
-2. ("ningenno_honsho.txt")            化学改革の大略 by Shimizu, Usaburo: https://www.aozora.gr.jp/cards/001508/card51403.html
-
-3. ("kagaku_kaikakuno_tairyaku.txt")  枯尾花 by Sekine, Mokuan: https://www.aozora.gr.jp/cards/001358/card49253.html
-
-4. ("kareobana.txt")                  将棋の話 by Shigeru, Tonomura: https://www.aozora.gr.jp/cards/001499/card52185.html
-
-5. ("shogino_hanashi.txt")            色盲検査表の話 by Shinobu, Ishihara: https://www.aozora.gr.jp/cards/001742/card55751.html
-
-6. ("shikimo_kensahyo.txt")           父八雲を語る by Iwao, Inagaki: https://www.aozora.gr.jp/cards/001961/card58832.html
-
-7. ("chichi_yakumoo_kataru.txt")      おくのほそ道 by Matsuo, Basho: https://www.aozora.gr.jp/cards/002240/card61619.html
-
-8. ("02okunohosomichi.txt")           青バスの女 by Tatsuno, Kyushi: https://www.aozora.gr.jp/cards/001782/card56514.html
-
-9. ("ao_basuno_onna.txt")             古事記物語 by Otomo, Yasumaro: https://www.aozora.gr.jp/cards/000107/card1530.html
-
-10. ("kojiki_monogatari.txt")         女の顔 by Kuroda, Seiki: https://www.aozora.gr.jp/cards/000257/card1425.html
-
+---
 
 ### Part 1.2: Dataframe
 
@@ -101,7 +91,7 @@ jp_novel_df <- data.frame()
 
 
 ## Part X: Team Member Contributions:
-1. Pankshi Parekar: Created/Organized the GitHub repository. Created/Organized the Final Report. Wrote the Abstract, as well as parts 1.1, 1.2, in the report. 
+1. Pankshi Parekar: Created/Organized the GitHub repository. Created/Organized the Final Report. Ran the Simple Random Selections for choosing the novels for analysis, and prepared the `data` folder in the GitHub repository accordingly.  Wrote the Abstract, as well as parts 1.1, 1.2, in the report. 
 
 2. Isabella Perez: 
 
