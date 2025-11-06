@@ -1,5 +1,5 @@
 ---
-title: "STAT 107 Final Project—Working Report"
+title: "STAT 107 Final Project—Final Report"
 output: html_document
 date: "`r Sys.Date()`"
 ---
@@ -28,14 +28,23 @@ The novels we ended up selecting  (and their file names) are the following:
 From Gutenberg:
 
 1. ("pg36358.txt")  お目出たき人 by Saneatsu Mushanokoji: https://www.gutenberg.org/ebooks/31757
+
 2. ("pg37605.txt")  羹 by Jun'ichiro Tanizaki: https://www.gutenberg.org/ebooks/36459
+
 3. ("pg34084.txt")  幽霊書店 by Christopher Morley: https://www.gutenberg.org/ebooks/41325
+
 4. ("pg37626.txt")  下宿人 by Marie Belloc Lowndes: https://www.gutenberg.org/ebooks/32978
+
 5. ("pg31757.txt")  友情 by Saneatsu Mushanokoji: https://www.gutenberg.org/ebooks/33307
+
 6. ("pg36459.txt")  刺靑 by Jun'ichiro Tanizaki: https://www.gutenberg.org/ebooks/31617
+
 7. ("pg41325.txt")  火星の記憶 by Raymond F. Jones: https://www.gutenberg.org/ebooks/36358
+
 8. ("pg32978.txt")  惡魔 by Jun'ichiro Tanizaki: https://www.gutenberg.org/ebooks/37605
+
 9. ("pg33307.txt")  法螺男爵旅土産 by Kuni Sasaki: https://www.gutenberg.org/ebooks/34084
+
 10. ("pg31617.txt") 續惡魔 by Jun'ichiro Tanizaki: https://www.gutenberg.org/ebooks/37626
 
 
@@ -64,7 +73,7 @@ From Aozora:
 
 ### Part 1.2: Dataframe
 
-After cleaning the data and processing it (see "Part 2: Data Cleaning/Processing"), we end up with a single dataframe called `[TEMP_INSERT_DF_NAME_HERE]`: of which contains the following variables:
+After cleaning the data and processing it (see "Part 2: Data Cleaning/Processing"), we end up with a single dataframe called `jp_novels_df`—of which contains the following variables:
 
 1. `site`: factor. A variable describing which of the two sites (Gutenberg or Aozora) the novel came from.
 
@@ -80,6 +89,20 @@ After cleaning the data and processing it (see "Part 2: Data Cleaning/Processing
 
 7. `non_japanese`: numerical. Total number of characters from the body that are NOT in Japanese.
 
-8. `removed_chars_header_footer`: numerical. 
+8. `removed_chars_header_footer`: numerical. Number of characters removed from the novel file as part of the header/footer.
 
-9. `removed_ascii_english`: numerical.
+9. `removed_ascii_english`: numerical. Number of Latin-script characters (ie, characters in English) that was removed from the novel file. 
+
+## Part 2: Data Cleaning/Processing
+
+```{r}
+jp_novel_df <- data.frame()
+```
+
+
+## Part X: Team Member Contributions:
+1. Pankshi Parekar: Created/Organized the GitHub repository. Created/Organized the Final Report. Wrote the Abstract, as well as parts 1.1, 1.2, in the report. 
+
+2. Isabella Perez: 
+
+3. Ulices Ramirez Lopez: 
