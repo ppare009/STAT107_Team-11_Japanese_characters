@@ -36,4 +36,9 @@ From Aozora:
 ## Files
 1. `README.md`: This file. Provides a general overview of the project, as well as definitions for the files within this Repository.
 2. `Final Report.Rmd`: R markup file. Contains the
-3. `data`: Folder that contains the novels that are used for this project. The files that coorespond to the given novels are defined above. 
+3. `data`: Folder that contains the novels that are used for this project. The files that correspond to the given novels are defined above.
+4. `Data Processing`: This folder contains all scripts used to clean and summarize Japanese text data from the Aozora and Gutenberg collections. Together, these files handle library setup, text cleaning, and the generation of CSV summaries with character statistics.
+- 00_requirements.R: Loads all required R packages (readr, stringr, dplyr) needed for data cleaning, string handling, and summarization.
+- functions.R: Defines the custom functions that clean the Japanese text files, removing headers, footers, Aozora markup, and non-Japanese characters, and compute character counts (kanji, hiragana, katakana, non-Japanese, etc.).
+- build_jp_novels.Rmd: The main R Markdown file that sources the other scripts, processes all .txt files from the Aozora and Gutenberg folders, applies the cleaning functions, and produces two output CSVs (aozora_summary.csv and gutenberg_summary.csv) containing the cleaned text statistics.
+
