@@ -90,20 +90,18 @@ After cleaning the data and processing it (see "Part 2: Data Cleaning/Processing
 
 9. `removed_ascii_english`: numerical. Number of Latin-script characters (ie, characters in English) that was removed from the novel file. 
 
-## Part 2: Data Cleaning/Processing
+## Part 2: Data Cleaning/Processing:
+
+The data cleaning/processing portion of this project was done on a separate file called `01_build_jp_novels.Rmd`. This file must be ran first in order to produce the `jp_novels_df` that will be used for the remainder of this analysis. 
+
+Should the dataframe be created correctly, it should look like the following:
 
 ```{r}
-# [NOTE]: TEMPORARY!!!! DELETE THIS WHEN PROPER VERSION OF THE DATAFRAME IS IMPLIMENTED!!!!!
-jp_novel_df <- data.frame(site=factor(c("Aozora", "Gutenberg", "Gutenberg", "Gutenberg", "Aozora", "Aozora")), 
-                          body_chars_total=c(6, 8, 8, 9, 4, 10), 
-                          kanji=c(1, 1, 4, 5, 3, 1), 
-                          hiragana=c(7, 8, 2, 4, 6, 7), 
-                          katakana=c(1, 4, 5, 6, 3, 2), 
-                          japanese_total=c(8, 9, 5, 7, 9, 10), 
-                          non_japanese=c(3, 4, 1, 2, 1, 3), 
-                          removed_chars_header_footer=c(1, 1, 2, 1, 3, 1), 
-                          removed_ascii_english=c(1, 2, 1, 2, 1, 1))
+head(jp_novels_df, 10)
 ```
+
+With this clean dataset, one is ready to perform analysis. 
+
 ## Part 3: Preliminary Analysis:
 
 After cleaning the data and organizing it into a single dataframe, it is possible to perform a preliminary analysis of the variables.
@@ -111,41 +109,42 @@ After cleaning the data and organizing it into a single dataframe, it is possibl
 Firstly, since they are the basis of this project, it is imperative to observe the distributions of Hiragana, Katakana, and Kanji within the sample data:
 
 ```{r}
-ggplot(jp_novel_df, aes(x = hiragana)) + geom_density()
-ggplot(jp_novel_df, aes(x = katakana)) + geom_density()
-ggplot(jp_novel_df, aes(x = kanji)) + geom_density()
+ggplot(jp_novels_df, aes(x = hiragana)) + geom_boxplot()
+ggplot(jp_novels_df, aes(x = katakana)) + geom_boxplot()
+ggplot(jp_novels_df, aes(x = kanji)) + geom_boxplot()
 ```
 
-Based on these charts, it seems like [TEMP].
+Based on these charts, it is apparent that the distributions for each of the three writing systems are quite skewed right. That is, there are many novels with a smaller counts of Hiragana, Katakana, and Kanji than there are larger counts of each writing system. Even so, it seems that there is a smaller spread of Katakana than there is of the other two writing systems. 
 
 However, it is possible that these results could be skewed by higher total character counts within given novels. To alleviate part of this, one can find the percentage of each novel's Japanese characters that belong to each writing system:
 
 ```{r}
-# [STEP 1]: Create a new column in `jp_novel_df` that represents the proportion of each novel's Japanese characters that are part of a given writing system.
-jp_novel_df$hiragana_proportion <- jp_novel_df$hiragana / jp_novel_df$japanese_total
-jp_novel_df$katakana_proportion <- jp_novel_df$katakana / jp_novel_df$japanese_total
-jp_novel_df$kanji_proportion <- jp_novel_df$kanji / jp_novel_df$japanese_total
+# [STEP 1]: Create a new column in `jp_novels_df` that represents the proportion of each novel's Japanese characters that are part of a given writing system.
+jp_novels_df$hiragana_proportion <- jp_novels_df$hiragana / jp_novels_df$japanese_total
+jp_novels_df$katakana_proportion <- jp_novels_df$katakana / jp_novels_df$japanese_total
+jp_novels_df$kanji_proportion <- jp_novels_df$kanji / jp_novels_df$japanese_total
 
-# [STEP 2]:
-ggplot(jp_novel_df, aes(x = hiragana_proportion)) + geom_density()
-ggplot(jp_novel_df, aes(x = katakana_proportion)) + geom_density()
-ggplot(jp_novel_df, aes(x = kanji_proportion)) + geom_density()
+# [STEP 2]: Display 
+ggplot(jp_novels_df, aes(x = hiragana_proportion)) + geom_boxplot()
+ggplot(jp_novels_df, aes(x = katakana_proportion)) + geom_boxplot()
+ggplot(jp_novels_df, aes(x = kanji_proportion)) + geom_boxplot()
 
 ```
-
+Now that these values are standardized, one can see that the proportion of Hiragana seems fairly normal compared to the other two systems. In addition, for the novels seen, the proportion of the novels that are written in Katakana is far smaller than the proportions of the other two systems—reaching a mean of only 10% of the novels. 
 
 Additionally, it is interesting to note the difference in the distributions of Hiragana, Katakana, and Kanji between both the Gutenberg and Aozora sites:
 
 ```{r}
-## ggplot(jp_novel_df, aes(x = hiragana)) + 
-##  geom_density(aes(col = site))
-## 
-## ggplot(jp_novel_df, aes(x = katakana)) + 
-##   geom_density(aes(col = site))
-## 
-## ggplot(jp_novel_df, aes(x = kanji)) + 
-##   geom_density(aes(col = site))
+ggplot(jp_novels_df, aes(x = hiragana_proportion)) + 
+ geom_boxplot(aes(col = site))
+
+ggplot(jp_novels_df, aes(x = katakana_proportion)) + 
+  geom_boxplot(aes(col = site))
+
+ggplot(jp_novels_df, aes(x = kanji_proportion)) + 
+  geom_boxplot(aes(col = site))
 ```
+These graphs seem to suggest a very clear difference in the distributions of the three systems between Aozora and Gutenberg—indicating merit in analyzing the differences between these two websites' novels further.
 
 With this preliminary analysis complete, it is now possible to move to more complicated analysis. 
 
@@ -162,5 +161,4 @@ Via these tests, it is possible to answer the questions that were proposed at th
 
 2. Isabella Perez: Wrote the Introduction section of the report. 
 
-3. Ulices Ramirez Lopez: Built an R Markdown workflow to automatically clean the Japanese text files from Aozora and Gutenberg. The main goal was to remove unnecessary parts like headers, footers, and any non-Japanese or English characters. Did this by reading each .txt file, converting the text to UTF-8, cutting out lines before and after certain markers (like ----- and 底本：), and deleting inline Aozora markup such as ［＃...］, 《...》, and ｜. After cleaning, the script counted only Japanese characters (kanji, hiragana, and katakana) to measure how much of the text remained. Finally, it saved two CSV summaries, one for Aozora and one for Gutenberg — showing the cleaned results for each file.
-
+3. Ulices Ramirez Lopez:  Built an R Markdown workflow to automatically clean the Japanese text files from Aozora and Gutenberg. The main goal was to remove unnecessary parts like headers, footers, and any non-Japanese or English characters. Did this by reading each .txt file, converting the text to UTF-8, cutting out lines before and after certain markers (like ----- and 底本：), and deleting inline Aozora markup such as ［＃...］, 《...》, and ｜. After cleaning, the script counted only Japanese characters (kanji, hiragana, and katakana) to measure how much of the text remained. Finally, it saved two CSV summaries, one for Aozora and one for Gutenberg — showing the cleaned results for each file.
