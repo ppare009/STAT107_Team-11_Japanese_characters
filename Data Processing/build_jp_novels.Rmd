@@ -1,0 +1,94 @@
+---
+title: "build_jp_novels"
+output: html_document
+date: "2025-11-08"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+source("00_requirements.R")
+source("functions.R")
+
+# Folders with text files (subfolders of the current folder)
+aozora_dir    <- "Aozora"
+gutenberg_dir <- "Gutenberg"
+
+# Gutenberg files
+gutenberg_files <- c(
+  "pg36358.txt",
+  "pg37605.txt",
+  "pg34084.txt",
+  "pg37626.txt",
+  "pg31757.txt",
+  "pg36459.txt",
+  "pg41325.txt",
+  "pg32978.txt",
+  "pg33307.txt",
+  "pg31617.txt"
+)
+
+# Aozora files
+aozora_files <- c(
+  "onnano_kao.txt",
+  "ningenno_honsho.txt",
+  "kagaku_kaikakuno_tairyaku.txt",
+  "kareobana.txt",
+  "shogino_hanashi.txt",
+  "shikimo_kensahyo.txt",
+  "chichi_yakumoo_kataru.txt",
+  "02okunohosomichi.txt",
+  "ao_basuno_onna.txt",
+  "kojiki_monogatari.txt"
+)
+
+# Empty dataframe
+jp_novels_df <- data.frame(
+  site = character(),
+  file = character(),
+  body_chars_total = numeric(),
+  kanji = numeric(),
+  hiragana = numeric(),
+  katakana = numeric(),
+  japanese_total = numeric(),
+  non_japanese = numeric(),
+  removed_chars_header_footer = numeric(),
+  removed_ascii_english = numeric(),
+  stringsAsFactors = FALSE
+)
+
+# Add Gutenberg texts
+for (f in gutenberg_files) {
+  path <- file.path(gutenberg_dir, f)
+  cat("Gutenberg:", path, "\n")
+  if (!file.exists(path)) {
+    stop("Missing Gutenberg file: ", path)
+  }
+  jp_novels_df <- add_text_to_df(jp_novels_df, path, site = "Gutenberg")
+}
+
+# Add Aozora texts
+for (f in aozora_files) {
+  path <- file.path(aozora_dir, f)
+  cat("Aozora:", path, "\n")
+  if (!file.exists(path)) {
+    stop("Missing Aozora file: ", path)
+  }
+  jp_novels_df <- add_text_to_df(jp_novels_df, path, site = "Aozora")
+}
+
+# Split by website
+gutenberg_df <- dplyr::filter(jp_novels_df, site == "Gutenberg")
+aozora_df    <- dplyr::filter(jp_novels_df, site == "Aozora")
+
+# Write one CSV for each website INTO THIS SAME FOLDER
+write.csv(gutenberg_df, "gutenberg_summary.csv", row.names = FALSE)
+write.csv(aozora_df,    "aozora_summary.csv",   row.names = FALSE)
+
+# Show quick preview in the knitted doc
+head(jp_novels_df)
+
+```
