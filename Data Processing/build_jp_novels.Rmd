@@ -14,8 +14,8 @@ source("00_requirements.R")
 source("functions.R")
 
 # Folders with text files (subfolders of the current folder)
-aozora_dir    <- "../data/Aozora"
-gutenberg_dir <- "../data/Gutenberg"
+aozora_dir    <- "../data/aozora"
+gutenberg_dir <- "../data/gutenberg"
 
 # Gutenberg files
 gutenberg_files <- c(
