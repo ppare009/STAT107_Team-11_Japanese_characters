@@ -15,8 +15,11 @@ Thus, we plan to sample 20 books from the online sources Gutenberg and Aozora to
 
 ## Introduction
 The purpose of this analysis is to examine the distribution of the three main Japanese writing systems: Hiragana, Katakana, and Kanji in the novels we obtained from the online libraries Gutenberg and Aozora. Specifically we aim to determine whether the frequency of each writing system differs between texts originally written in Japanese(found in Aozora), and works translates into Japanese(found in Gutenberg). 
+
   With this analysis, we are trying to answer the question that is: How do the distributions of Hiragana, Katakana, and Kanji differ between original Japanese novels and translated Japanese novels? By addressing this question, we provide insights for Japanese language learners who want to mainly focus their studies on the writing system most relevant in the type of novels they intend to read.
+  
   This analysis may benefit translators, linguists, and language learners. As it offers factual data on writing system usage in Japanese literature. In terms of methodology, we are performing a comparative analysis bt sampling and classifying characters in each test according to their writing system. This allows us to classify and compare patterns in the writing system, providing a clear image of how different types of text utilize Hiragana, Katakana, Kanji.
+
 
 ## Part 1: Data 
 
@@ -90,14 +93,73 @@ After cleaning the data and processing it (see "Part 2: Data Cleaning/Processing
 ## Part 2: Data Cleaning/Processing
 
 ```{r}
-jp_novel_df <- data.frame()
+# [NOTE]: TEMPORARY!!!! DELETE THIS WHEN PROPER VERSION OF THE DATAFRAME IS IMPLIMENTED!!!!!
+jp_novel_df <- data.frame(site=factor(c("Aozora", "Gutenberg", "Gutenberg", "Gutenberg", "Aozora", "Aozora")), 
+                          body_chars_total=c(6, 8, 8, 9, 4, 10), 
+                          kanji=c(1, 1, 4, 5, 3, 1), 
+                          hiragana=c(7, 8, 2, 4, 6, 7), 
+                          katakana=c(1, 4, 5, 6, 3, 2), 
+                          japanese_total=c(8, 9, 5, 7, 9, 10), 
+                          non_japanese=c(3, 4, 1, 2, 1, 3), 
+                          removed_chars_header_footer=c(1, 1, 2, 1, 3, 1), 
+                          removed_ascii_english=c(1, 2, 1, 2, 1, 1))
+```
+## Part 3: Preliminary Analysis:
+
+After cleaning the data and organizing it into a single dataframe, it is possible to perform a preliminary analysis of the variables.
+
+Firstly, since they are the basis of this project, it is imperative to observe the distributions of Hiragana, Katakana, and Kanji within the sample data:
+
+```{r}
+ggplot(jp_novel_df, aes(x = hiragana)) + geom_density()
+ggplot(jp_novel_df, aes(x = katakana)) + geom_density()
+ggplot(jp_novel_df, aes(x = kanji)) + geom_density()
+```
+
+Based on these charts, it seems like [TEMP].
+
+However, it is possible that these results could be skewed by higher total character counts within given novels. To alleviate part of this, one can find the percentage of each novel's Japanese characters that belong to each writing system:
+
+```{r}
+# [STEP 1]: Create a new column in `jp_novel_df` that represents the proportion of each novel's Japanese characters that are part of a given writing system.
+jp_novel_df$hiragana_proportion <- jp_novel_df$hiragana / jp_novel_df$japanese_total
+jp_novel_df$katakana_proportion <- jp_novel_df$katakana / jp_novel_df$japanese_total
+jp_novel_df$kanji_proportion <- jp_novel_df$kanji / jp_novel_df$japanese_total
+
+# [STEP 2]:
+ggplot(jp_novel_df, aes(x = hiragana_proportion)) + geom_density()
+ggplot(jp_novel_df, aes(x = katakana_proportion)) + geom_density()
+ggplot(jp_novel_df, aes(x = kanji_proportion)) + geom_density()
+
 ```
 
 
-## Part X: Team Member Contributions:
-1. Pankshi Parekar: Created/Organized the GitHub repository. Created/Organized the Final Report. Ran the Simple Random Selections for choosing the novels for analysis, and prepared the `data` folder in the GitHub repository accordingly.  Wrote the Abstract, as well as parts 1.1, 1.2, in the report. 
+Additionally, it is interesting to note the difference in the distributions of Hiragana, Katakana, and Kanji between both the Gutenberg and Aozora sites:
 
-2. Isabella Perez: 
+```{r}
+## ggplot(jp_novel_df, aes(x = hiragana)) + 
+##  geom_density(aes(col = site))
+## 
+## ggplot(jp_novel_df, aes(x = katakana)) + 
+##   geom_density(aes(col = site))
+## 
+## ggplot(jp_novel_df, aes(x = kanji)) + 
+##   geom_density(aes(col = site))
+```
+
+With this preliminary analysis complete, it is now possible to move to more complicated analysis. 
+
+## Part 4: Future Analysis:
+
+The goal of this project is to determine if there are any significant differences in the distributions of Hiragana, Katakana, and Kanji within Japanese works. In order to definitively determine this, one can run a collection of two-sample t-tests between each of the three writing systems (i.e., comparing Hiragana and Katakana, Katakana and Kanji, and Hiragana and Kanji).
+
+In addition, to determine if there is a significant difference between the distribution of the writing systems in originally-Japanese works and works translated to Japanese, one can run a two-sample t-test for each writing system on the novels that are from Aozora and the novels that are from Gutenberg.
+
+Via these tests, it is possible to answer the questions that were proposed at the begining of this report. 
+
+## Part X: Team Member Contributions:
+1. Pankshi Parekar: Created/Organized the GitHub repository. Created/Organized the Final Report. Ran the Simple Random Selections for choosing the novels for analysis, and prepared the `data` folder in the GitHub repository accordingly.  Wrote the Abstract, as well as parts 1, 3, and 4 in the report. 
+
+2. Isabella Perez: Wrote the Introduction section of the report. 
 
 3. Ulices Ramirez Lopez: 
-
