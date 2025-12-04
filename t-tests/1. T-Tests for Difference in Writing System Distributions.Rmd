@@ -26,63 +26,94 @@ According to [The University of Austin, Texas](https://sites.utexas.edu/sos/guid
 
 3. The population variances of both datasets are equal.
 
+Thus, in order to analyze whether or not there is a difference in the mean number of characters of these three writing systems within all of the gathered novels, it is important to verify these conditions hold.
 
-Assuming that the datasets are normally distributed (as suggested by the distributions of the proportions of each writing system), it is important to check that the variances of the datasets are equal as well.
+Since each datapoint that we are using come from unique novels, and these novels were randomly selected from the greater selection of novels present in both Aozora and Gutenberg, it is safe to say that the observations in our compared datsets are independent.
+
+However, according to the 
+
+```{r}
+log_hiragana <- log(jp_novels_df$hiragana)
+log_katakana <- log(jp_novels_df$katakana)
+log_kanji <- log(jp_novels_df$kanji)
+
+
+par(mfrow = c(1, 3))
+
+boxplot(log_hiragana, main = "Hiragana Distribution", 
+        ylim = c(0, 15), col = rgb(1, 0, 0, 0.25))
+boxplot(log_katakana, main = "Katakana Distribution", 
+        ylim = c(0, 15), col = rgb(0, 1, 0, 0.25))
+boxplot(log_kanji, main = "Kanji Distribution", 
+        ylim = c(0, 15), col = rgb(0, 0, 1, 0.25))
+```
+
+After performing this transformation, the data seems to be far closer to the normal distribution than before. Thus, it is possible for the normalcy condition to be met, provide that these log-transformed values of Hiragana, Katakana, and Kanji counts are used for analysis.
+
+Finally, is important to check that the variances of the datasets are equal as well.
 
 ```{r pre_test}
-# [STEP 1]: Create a new column in `jp_novels_df` that represents the proportion of each novel's Japanese characters that are part of a given writing system.
-jp_novels_df$hiragana_proportion <- jp_novels_df$hiragana / jp_novels_df$japanese_total
-jp_novels_df$katakana_proportion <- jp_novels_df$katakana / jp_novels_df$japanese_total
-jp_novels_df$kanji_proportion <- jp_novels_df$kanji / jp_novels_df$japanese_total
-
-# [STEP 2]: Calculate the variance
-var(jp_novels_df$hiragana_proportion)
-var(jp_novels_df$katakana_proportion)
-var(jp_novels_df$kanji_proportion)
+# [STEP 1]: Calculate the variance
+var(log_hiragana)
+var(log_katakana)
+var(log_kanji)
 ```
-Since the sample variances for the proportional values of Hiragana, Katakana, and Kanji in our sample are within 0.0015 characters of one another, it is reasonable to assume that the variances for each of these datasets are quite close to one another—if not equal.
 
-Thus, knowing that condition 2 is met, and assuming conditions 1 and 3 are met, it is possible to continue with the two-sample t-tests.
+The resulting variances are the following:
 
-Note that we are performing these t-tests for the proportional values of Hiragana, Katakana, and Kanji—as these are the measurements that we assume to be more normally distributed. 
+- Hiragana: 3.143388 characters²
+
+- Katakana: 3.148605 characters²
+
+- Kanji: 2.71181 characters²
+
+In this instance, the variances of the log-transformed Hiragana counts and log-transformed Katakana counts are extremely similar (differint by just over 0.005 characters²), while the variance of the log-transformed Kanji count is lower than both of them. This means that the variances of the transformed Hiragana and Katakana counts could be similar, while the variances of any combination with Kanji will not be similar.
+
+
+In summary, using the log-transformation, it is reasonable to assume independence and normality (assumptions 1 and 2). However, it cannot be definitively assumed that the variances between each writing system are equal. 
+
+To be safe, instead of the common Student's t-Test, one can use the Welch t-Test. This version of the t-Test still assumes normality and independence, but does NOT require equal variances between the two distributions in question. This version of the t-Test is perfect for our needs. 
+
+With this preliminary screening complete, it is time to perform the Two-Sample T-Tests for Difference in Means. 
+
 
 # Test 1: Two-Sample T-Test for Difference in Means of Hiragana and Katakana
 
 ```{r hira_kata}
-t.test(jp_novels_df$hiragana_proportion, jp_novels_df$katakana_proportion, 
+t.test(log_hiragana, log_katakana, 
        mu = 0, conf.level = 0.95)
 
 ```
 
 Result:
-- 95% Confidence Interval: [0.4001650 0.4786621]
-- p-value: < 2.2e-16
+- 95% Confidence Interval: [0.5098914, 2.7808238]
+- p-value: 0.005655
 
 
 
 # Test 2: Two-Sample T-Test for Difference in Means of Hiragana and Kanji
 
 ```{r hira_kanji}
-t.test(jp_novels_df$hiragana_proportion, jp_novels_df$kanji_proportion, 
+t.test(log_hiragana, log_kanji, 
        mu = 0, conf.level = 0.95)
 
 ```
 Result:
-- 95% Confidence Interval: [0.1852005, 0.2680537]
-- p-value: 1.916e-13
+- 95% Confidence Interval: [-0.5614726,  1.6296081]
+- p-value: 0.3299
 
 
 
 # Test 3: Two-Sample T-Test for Difference in Means of Katakana and Kanji
 
 ```{r kata_kanji}
-t.test(jp_novels_df$katakana_proportion, jp_novels_df$kanji_proportion, 
+t.test(log_katakana, log_kanji, 
        mu = 0, conf.level = 0.95)
 
 ```
 
 Result:
-- 95% Confidence Interval: [-0.2508933, -0.1746797]
-- p-value: 1.231e-13
+- 95% Confidence Interval: [-2.20732265, -0.01525716]
+- p-value: 0.04705
 
 
