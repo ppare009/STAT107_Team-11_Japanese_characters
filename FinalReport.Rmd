@@ -166,7 +166,8 @@ These graphs seem to suggest a very clear difference in the distributions of the
 
 With this preliminary analysis complete, it is now possible to move to more complicated analysis. 
 
-## Part 4: Future Analysis:
+
+## Part 4: Analysis:
 
 The goal of this project is to determine if there are any significant differences in the distributions of Hiragana, Katakana, and Kanji within Japanese works. In order to definitively determine this, one can run a collection of two-sample t-tests between each of the three writing systems (i.e., comparing Hiragana and Katakana, Katakana and Kanji, and Hiragana and Kanji).
 
@@ -174,10 +175,44 @@ In addition, to determine if there is a significant difference between the distr
 
 Via these tests, it is possible to answer the questions that were proposed at the beginning of this report. 
 
+### Part 4.1: Pre-Test Screening
+
+According to [The University of Austin, Texas](https://sites.utexas.edu/sos/guided/inferential/numeric/onecat/2-groups/independent/two-sample-t/), in order to run a Two-Sample T-Test, there are some assumptions to be made:
+
+1. Both datasets are normally distributed.
+
+2. Each each observation in both datasets are independent.
+
+3. The population variances of both datasets are equal.
+
+As each data point within our sample comes from its own novel, each observation in the overall dataset is independent of one another. Assuming that the datasets are normally distributed (as suggested by the distributions of the PROPORTIONS of each writing system present within the novels), it is important to check that the variances of the datasets are equal as well. When calculated, the variances of the proportions of each writing system is the following:
+
+- Hiragana: 0.004398621
+
+- Katakana: 0.00310443
+
+- Kanji: 0.003975239
+
+Since the sample variances for the proportional values of Hiragana, Katakana, and Kanji in our sample are within 0.0015 characters of one another, it is reasonable to assume that the variances for each of these datasets are quite close to one another—if not equal.
+
+Thus, knowing that condition 2 is met, and assuming conditions 1 and 3 are met, it is possible to continue with the two-sample t-tests.
+
+Note that we are performing these t-tests for the proportional values of Hiragana, Katakana, and Kanji—as these are the measurements that we assume to be more normally distributed. 
+
+### Part 4.2: Two-Sample T-Test for Difference in Writing System Distribution Means
+
+[tbd]
+
+### Part 4.3: Two-Sample T-Test for Difference in Hosting Webstite Distribution Means
+
+[tbd]
+
+
 ## Part 5: Team Member Contributions:
 1. Pankshi Parekar: Created/Organized the GitHub repository. Created/Organized the Final Report. Ran the Simple Random Selections for choosing the novels for analysis, and prepared the `data` folder in the GitHub repository accordingly.  Wrote the Abstract, as well as parts 1, 3, and 4 in the report. 
 
 2. Isabella Perez: Wrote the Introduction section of the report. 
 
 3. Ulices Ramirez Lopez:  Built an R Markdown workflow to automatically clean the Japanese text files from Aozora and Gutenberg. The main goal was to remove unnecessary parts like headers, footers, and any non-Japanese or English characters. Did this by reading each .txt file, converting the text to UTF-8, cutting out lines before and after certain markers (like ----- and 底本：), and deleting inline Aozora markup such as ［＃...］, 《...》, and ｜. After cleaning, the script counted only Japanese characters (kanji, hiragana, and katakana) to measure how much of the text remained. Finally, it saved two CSV summaries, one for Aozora and one for Gutenberg — showing the cleaned results for each file.
+
 
