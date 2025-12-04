@@ -18,7 +18,7 @@ jp_novels_df <- read.csv("../Data Processing/jp_novels.csv")
 
 # Pre-test Screening
 
-According to [https://sites.utexas.edu/sos/guided/inferential/numeric/onecat/2-groups/independent/two-sample-t/](The University of Austin, Texas), in order to run a Two-Sample T-Test, there are some assumptions to be made:
+According to [The University of Austin, Texas](https://sites.utexas.edu/sos/guided/inferential/numeric/onecat/2-groups/independent/two-sample-t/), in order to run a Two-Sample T-Test, there are some assumptions to be made:
 
 1. Both datasets are normally distributed.
 
