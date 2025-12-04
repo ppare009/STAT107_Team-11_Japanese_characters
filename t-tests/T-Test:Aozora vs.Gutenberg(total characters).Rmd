@@ -26,8 +26,8 @@ We will:
 - Proceed with the Welch t-test
 ```{r}
 # Load data 
-aozora_df    <- read.csv("aozora_summary.csv")
-gutenberg_df <- read.csv("gutenberg_summary.csv")
+aozora_df    <- read.csv("../Data Processing/aozora_summary.csv")
+gutenberg_df <- read.csv("../Data Processing/gutenberg_summary.csv")
 
 # Extract the variable we are comparing
 aozora_chars    <- aozora_df$body_chars_total
