@@ -30,9 +30,11 @@ Thus, in order to analyze whether or not there is a difference in the mean numbe
 
 Since each datapoint that we are using come from unique novels, and these novels were randomly selected from the greater selection of novels present in both Aozora and Gutenberg, it is safe to say that the observations in our compared datsets are independent.
 
-However, according to the 
+However, according to the distributions seen in Figure 1, it is evident that the distributions of Hiragana, Katakana, and Kanji characters are extremely right-skewed—voiding the normality assumption required for the t-Test. In order to remedy this, we apply a log transformation to the measurements in question. The resulting distributions are the following:
 
-```{r}
+```{r, echo=FALSE}
+# [NOTE]: Figure 6
+
 log_hiragana <- log(jp_novels_df$hiragana)
 log_katakana <- log(jp_novels_df$katakana)
 log_kanji <- log(jp_novels_df$kanji)
@@ -40,17 +42,23 @@ log_kanji <- log(jp_novels_df$kanji)
 
 par(mfrow = c(1, 3))
 
-boxplot(log_hiragana, main = "Hiragana Distribution", 
+boxplot(log_hiragana, 
+        main = "Log-Transformed Hiragana Distribution", 
+         cex.main = 0.75,
         ylim = c(0, 15), col = rgb(1, 0, 0, 0.25))
-boxplot(log_katakana, main = "Katakana Distribution", 
+boxplot(log_katakana, 
+        main = "Log-Transformed Katakana Distribution",  sub = "Figure 6",
+         cex.main = 0.75,
         ylim = c(0, 15), col = rgb(0, 1, 0, 0.25))
-boxplot(log_kanji, main = "Kanji Distribution", 
+boxplot(log_kanji, 
+        main = "Log-Transformed Kanji Distribution", 
+        cex.main = 0.75,
         ylim = c(0, 15), col = rgb(0, 0, 1, 0.25))
 ```
 
-After performing this transformation, the data seems to be far closer to the normal distribution than before. Thus, it is possible for the normalcy condition to be met, provide that these log-transformed values of Hiragana, Katakana, and Kanji counts are used for analysis.
+After performing this transformation, the data seems to be far closer to the normal distribution than before. Thus, it is possible for the normalcy condition to be met, provide that these log-transformed values of Hiragana, Katakana, and Kanji counts are used for analysis instead of the original values.
 
-Finally, is important to check that the variances of the datasets are equal as well.
+Finally, one should check the variances of the log-transformed data. 
 
 ```{r pre_test}
 # [STEP 1]: Calculate the variance
@@ -69,7 +77,6 @@ The resulting variances are the following:
 
 In this instance, the variances of the log-transformed Hiragana counts and log-transformed Katakana counts are extremely similar (differint by just over 0.005 characters²), while the variance of the log-transformed Kanji count is lower than both of them. This means that the variances of the transformed Hiragana and Katakana counts could be similar, while the variances of any combination with Kanji will not be similar.
 
-
 In summary, using the log-transformation, it is reasonable to assume independence and normality (assumptions 1 and 2). However, it cannot be definitively assumed that the variances between each writing system are equal. 
 
 To be safe, instead of the common Student's t-Test, one can use the Welch t-Test. This version of the t-Test still assumes normality and independence, but does NOT require equal variances between the two distributions in question. This version of the t-Test is perfect for our needs. 
@@ -77,10 +84,12 @@ To be safe, instead of the common Student's t-Test, one can use the Welch t-Test
 With this preliminary screening complete, it is time to perform the Two-Sample T-Tests for Difference in Means. 
 
 
+For each of these tests, the null hypothesis is that $\mu_1 = \mu_2$, and the alternate hypothesis is that $\mu_1 \neq \mu_2$. The results of these t-tests will be compared to an alpha level of $\alpha = 0.05$. 
+
 # Test 1: Two-Sample T-Test for Difference in Means of Hiragana and Katakana
 
 ```{r hira_kata}
-t.test(log_hiragana, log_katakana, 
+t.test(log_hiragana, log_katakana, alternative = "two.sided", 
        mu = 0, conf.level = 0.95)
 
 ```
@@ -94,7 +103,7 @@ Result:
 # Test 2: Two-Sample T-Test for Difference in Means of Hiragana and Kanji
 
 ```{r hira_kanji}
-t.test(log_hiragana, log_kanji, 
+t.test(log_hiragana, log_kanji, alternative = "two.sided", 
        mu = 0, conf.level = 0.95)
 
 ```
@@ -107,7 +116,7 @@ Result:
 # Test 3: Two-Sample T-Test for Difference in Means of Katakana and Kanji
 
 ```{r kata_kanji}
-t.test(log_katakana, log_kanji, 
+t.test(log_katakana, log_kanji, alternative = "two.sided",
        mu = 0, conf.level = 0.95)
 
 ```
