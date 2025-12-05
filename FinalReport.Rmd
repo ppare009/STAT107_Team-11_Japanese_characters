@@ -25,8 +25,6 @@ The purpose of this analysis is to examine the distribution of the three main Ja
 
 ## Part 1: Data 
 
-### Part 1.1: Japanese Literature
-
 For this project, we will observe several novels from both the (Gutenberg)[www.gutenberg.org] website and the (Aozora)[https://www.aozora.gr.jp/.] website. Gutenberg is an English-based online library consisting of several eBooks in the public domain. Likewise, Aozora is a Japanese-based online library serving the same purpose. 
 
 We chose these sites due to the types of literature within them. From what we observed, the Japanese selection on Gutenberg mostly consists of works translated TO Japanese, while Aozora mostly consists of works written ORIGINALLY in Japanese. Thus, collecting a sample from both of the sites can provide insights as to how the distribution of each of the three writings systems differ between originally-Japanese works and works translated to Japanese. 
@@ -69,36 +67,13 @@ From Aozora:
 | "kojiki_monogatari.txt" | 女の顔 | Kuroda, Seiki | https://www.aozora.gr.jp/cards/000257/card1425.html |
 
 ---
-
-### Part 1.2: Dataframe
-
-After cleaning the data and processing it (see "Part 2: Data Cleaning/Processing"), we end up with a single dataframe called `jp_novels_df`—of which contains the following variables:
-
-1. `site`: factor. A variable describing which of the two sites (Gutenberg or Aozora) the novel came from.
-
-2. `body_chars_total`: numerical. Total number of characters in the actual text of the literature (excluding the characters found in the header/footer).
-
-3. `kanji`: numerical. Total number of characters from the body that are in Kanji.
-
-4. `hiragana`: numerical. Total number of characters from the body that are in Hiragana.
-
-5. `katakana`: numerical. Total number of characters from the body that are in Katakana.
-
-6. `japanese_total`: numerical. Total number of characters from the body that are in Japanese (`kanji` + `hiragana` + `katakana`).
-
-7. `non_japanese`: numerical. Total number of characters from the body that are NOT in Japanese.
-
-8. `removed_chars_header_footer`: numerical. Number of characters removed from the novel file as part of the header/footer.
-
-9. `removed_ascii_english`: numerical. Number of Latin-script characters (ie, characters in English) that was removed from the novel file. 
-
 ## Part 2: Data Cleaning/Processing:
 
-The data cleaning/processing portion of this project was done on a separate file called `01_build_jp_novels.Rmd`. This file must be ran first in order to produce the `jp_novels_df` that will be used for the remainder of this analysis. 
+In order to extrat how many Hiragana, Katakana, and Kanji characters that a novel has, we first take a subset of entire `.txt` file that does not contain the header/footer information added by the novel's Host Website (Aozora or Gutenberg). Then, we itterated over each character in the novel, classified it as either Hiragana, Katakana, or Kanji, and added it to the total sum of the writing system that it was classified as. Finally, we recoded the derrived sum of Hiragana, Katakana, and Kanji. 
 
-Should the dataframe be created correctly, it should look like the following:
+This process was repeated for every novel in our sample. The Host Website, total number of characters, total number of Hiragana, Katakana, and Kanji in each novel, etc. was saved in the table `jp_novels_df`. 
 
-![Figure 0](Graphs/Images/0_jp_novels_df.png)
+![***Figure 0: First 10 entries of `jp_novels_df`***](Graphs/Images/0_jp_novels_df.png)
 
 With this clean dataset, one is ready to perform analysis. 
 
@@ -227,5 +202,6 @@ Overall, the statistical evidence shows that Gutenberg novels contain significan
 2. Isabella Perez: Wrote the Introduction section of the report. 
 
 3. Ulices Ramirez Lopez:  Built an R Markdown workflow to automatically clean the Japanese text files from Aozora and Gutenberg. The main goal was to remove unnecessary parts like headers, footers, and any non-Japanese or English characters. Did this by reading each .txt file, converting the text to UTF-8, cutting out lines before and after certain markers (like ----- and 底本：), and deleting inline Aozora markup such as ［＃...］, 《...》, and ｜. After cleaning, the script counted only Japanese characters (kanji, hiragana, and katakana) to measure how much of the text remained. Finally, it saved two CSV summaries, one for Aozora and one for Gutenberg — showing the cleaned results for each file.
+
 
 
