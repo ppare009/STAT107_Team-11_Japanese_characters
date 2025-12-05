@@ -98,15 +98,7 @@ The data cleaning/processing portion of this project was done on a separate file
 
 Should the dataframe be created correctly, it should look like the following:
 
-```{r}
-library(ggplot2)
-
-aozora <- read.csv("Data Processing/aozora_summary.csv")
-gutenberg <- read.csv("Data Processing/gutenberg_summary.csv")
-jp_novels_df <- rbind(aozora, gutenberg)
-  
-head(jp_novels_df, 10)
-```
+![Figure 0](Graphs/Images/0_jp_novels_df.png)
 
 With this clean dataset, one is ready to perform analysis. 
 
@@ -116,75 +108,27 @@ After cleaning the data and organizing it into a single dataframe, it is possibl
 
 Firstly, since they are the basis of this project, it is imperative to observe the distributions of Hiragana, Katakana, and Kanji within the sample data:
 
-```{r, echo=FALSE}
-# [NOTE]: Figure 1
 
-par(mfrow = c(1, 3))
+![***Figure 1: Raw Distributions of Hiragana, Katakana, and Kanji***](Graphs/Images/1_raw_writing_systems.png)
 
-boxplot(jp_novels_df$hiragana, main = "Hiragana Distribution", 
-        ylim = c(0, 150000), col = rgb(1, 0, 0, 0.25))
-boxplot(jp_novels_df$katakana, main = "Katakana Distribution",  sub = "Figure 1",
-        ylim = c(0, 150000), col = rgb(0, 1, 0, 0.25))
-boxplot(jp_novels_df$kanji, main = "Kanji Distribution", 
-        ylim = c(0, 150000), col = rgb(0, 0, 1, 0.25))
-```
 
 Based on these charts, it is apparent that the distributions for each of the three writing systems are quite skewed right. That is, there are many novels with a smaller counts of Hiragana, Katakana, and Kanji than there are larger counts of each writing system. Even so, it seems that there is a smaller spread of Katakana than there is of the other two writing systems. 
 
 However, it is possible that these results could be skewed by higher total character counts within given novels. To alleviate part of this, one can find the percentage of each novel's Japanese characters that belong to each writing system:
 
-```{r, echo=FALSE}
-# [NOTE]: Figure 2
 
-# [STEP 1]: Create a new column in `jp_novels_df` that represents the proportion of each novel's Japanese characters that are part of a given writing system.
-jp_novels_df$hiragana_proportion <- jp_novels_df$hiragana / jp_novels_df$japanese_total
-jp_novels_df$katakana_proportion <- jp_novels_df$katakana / jp_novels_df$japanese_total
-jp_novels_df$kanji_proportion <- jp_novels_df$kanji / jp_novels_df$japanese_total
+![***Figure 2: Proportional Distributions of Hiragana, Katakana, and Kanji***](Graphs/Images/2_proportional_writing_systems.png)
 
-# [STEP 2]: Display 
-par(mfrow = c(1, 3))
-
-boxplot(jp_novels_df$hiragana_proportion, 
-        main = "Hiragana Proportion Distribution",
-        cex.main = 0.9,
-        ylim = c(0, 1), col = rgb(1, 0, 0, 0.25))
-boxplot(jp_novels_df$katakana_proportion, 
-        main = "Katakana Proportion Distribution",  sub = "Figure 2",
-        cex.main = 0.9,
-        ylim = c(0, 1), col = rgb(0, 1, 0, 0.25))
-boxplot(jp_novels_df$kanji_proportion, 
-        main = "Kanji Proportion Distribution", 
-        cex.main = 0.9,
-        ylim = c(0, 1), col = rgb(0, 0, 1, 0.25))
-
-```
 
 Now that these values are standardized, one can see that the proportion of Hiragana seems fairly normal compared to the other two systems. In addition, for the novels seen, the proportion of the novels that are written in Katakana is far smaller than the proportions of the other two systems—reaching a mean of only 10% of the novels. 
 
 Additionally, it is interesting to note the difference in the distributions of Hiragana, Katakana, and Kanji between both the Gutenberg and Aozora sites:
 
-```{r, echo=FALSE}
-# [NOTE]: Figures 3 through 5
 
-ggplot(jp_novels_df, aes(x = hiragana_proportion)) + 
-  geom_boxplot(aes(col = site)) + xlim(0, 0.8) + 
-  ggtitle("Distribution of Hiragana in Japanese Novels, Split by Host Website",
-          subtitle = "Figure 3") + 
-  xlab("Proportion of Novel")
+![***Figure 3: Distribution of Hiragana in Japanese Novels, Split by Host Website***](Graphs/Images/3_hiragana_split_by_website.png)
+![***Figure 4: Distribution of Katakana in Japanese Novels, Split by Host Website***](Graphs/Images/4_katakana_split_by_website.png)
+![***Figure 5: Distribution of Kanji in Japanese Novels, Split by Host Website***](Graphs/Images/5_kanji_split_by_website.png)
 
-ggplot(jp_novels_df, aes(x = katakana_proportion)) + 
-  geom_boxplot(aes(col = site)) + xlim(0, 0.8) +
-  ggtitle("Distribution of Katakana in Japanese Novels, Split by Host Website",
-          subtitle = "Figure 4") +
-  xlab("Proportion of Novel")
-
-ggplot(jp_novels_df, aes(x = kanji_proportion)) + 
-  geom_boxplot(aes(col = site)) + xlim(0, 0.8) +
-  ggtitle("Distribition of Kanji in Japanese Novels, Split by Host Website",
-          subtitle = "Figure 5") +
-  xlab("Proportion of Novel")
-
-```
 
 These graphs seem to suggest a very clear difference in the distributions of the three systems between Aozora and Gutenberg—indicating merit in analyzing the differences between these two websites' novels further.
 
@@ -214,29 +158,9 @@ Since each datapoint that we are using come from unique novels, and these novels
 
 However, according to the distributions seen in Figure 1, it is evident that the distributions of Hiragana, Katakana, and Kanji characters are extremely right-skewed—voiding the normality assumption required for the t-Test. In order to remedy this, we apply a log transformation to the measurements in question. The resulting distributions are the following:
 
-```{r, echo=FALSE}
-# [NOTE]: Figure 6
 
-log_hiragana <- log(jp_novels_df$hiragana)
-log_katakana <- log(jp_novels_df$katakana)
-log_kanji <- log(jp_novels_df$kanji)
+![***Figure 6: Log-Transformed Distributions of Hiragana, Katakana, and Kanji***](Graphs/Images/6_log_writing_systems.png)
 
-
-par(mfrow = c(1, 3))
-
-boxplot(log_hiragana, 
-        main = "Log-Transformed Hiragana Distribution", 
-         cex.main = 0.75,
-        ylim = c(0, 15), col = rgb(1, 0, 0, 0.25))
-boxplot(log_katakana, 
-        main = "Log-Transformed Katakana Distribution",  sub = "Figure 6",
-         cex.main = 0.75,
-        ylim = c(0, 15), col = rgb(0, 1, 0, 0.25))
-boxplot(log_kanji, 
-        main = "Log-Transformed Kanji Distribution", 
-        cex.main = 0.75,
-        ylim = c(0, 15), col = rgb(0, 0, 1, 0.25))
-```
 
 After performing this transformation, the data seems to be far closer to the normal distribution than before. Thus, it is possible for the normalcy condition to be met, provide that these log-transformed values of Hiragana, Katakana, and Kanji counts are used for analysis instead of the original values.
 
@@ -249,7 +173,6 @@ Finally, one should check the variances of the log-transformed data. When calcul
 - Kanji: 2.71181 characters²
 
 In this instance, the variances of the log-transformed Hiragana counts and log-transformed Katakana counts are extremely similar (differint by just over 0.005 characters²), while the variance of the log-transformed Kanji count is lower than both of them. This means that the variances of the transformed Hiragana and Katakana counts could be similar, while the variances of any combination with Kanji will not be similar.
-
 
 In summary, using the log-transformation, it is reasonable to assume independence and normality (assumptions 1 and 2). However, it cannot be definitively assumed that the variances between each writing system are equal. 
 
