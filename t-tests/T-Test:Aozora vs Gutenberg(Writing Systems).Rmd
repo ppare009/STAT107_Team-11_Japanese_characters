@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This document performs three two-sample t-tests comparing the number of Hiragana, Katakana, and Kanji characters between novels from Aozora website and the Project Gutenberg website.
 
-Our goal is to determine whethet the mean count of each writing system differs between the two sources.
+Our goal is to determine whether the mean count of each writing system differs between the two sources.
 
 # Pre-Test Screening
 Before running each two-sample t-test, we check the usual assumptions:
@@ -25,8 +25,8 @@ Before running each two-sample t-test, we check the usual assumptions:
    Writing-system counts may differ greatly in variance between Aozora and Gutenberg. Since Welch’s t-test does not assume equal variances, it is appropriate for these comparisons.
    
 ```{r}
-aozora_df    <- read.csv("aozora_summary.csv")
-gutenberg_df <- read.csv("gutenberg_summary.csv")
+aozora_df    <- read.csv("../Data Processing/aozora_summary.csv")
+gutenberg_df <- read.csv("../Data Processing/gutenberg_summary.csv")
 
 # Extract writing-system counts
 aozora_hira    <- aozora_df$hiragana
