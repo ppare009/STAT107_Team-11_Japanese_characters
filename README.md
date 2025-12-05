@@ -35,10 +35,42 @@ From Aozora:
 
 ## Files
 1. `README.md`: This file. Provides a general overview of the project, as well as definitions for the files within this Repository.
-2. `Final Report.Rmd`: R markup file. Contains the
-3. `data`: Folder that contains the novels that are used for this project. The files that correspond to the given novels are defined above.
-4. `Data Processing`: This folder contains all scripts used to clean and summarize Japanese text data from the Aozora and Gutenberg collections. Together, these files handle library setup, text cleaning, and the generation of CSV summaries with character statistics. You should run the files in the following order: first, execute 00_requirements.R once to install and load all the required packages. Then, open and knit build_jp_novels.Rmd, which automatically sources both 00_requirements.R and functions.R. This will process all the .txt files from the Aozora and Gutenberg folders, apply the cleaning functions, and generate the two summary CSVs in the same directory
-5. `00_requirements.R`: Loads all required R packages (readr, stringr, dplyr) needed for data cleaning, string handling, and summarization.
-6. `functions.R`: Defines the custom functions that clean the Japanese text files, removing headers, footers, Aozora markup, and non-Japanese characters, and compute character counts (kanji, hiragana, katakana, non-Japanese, etc.).
-7. `build_jp_novels.Rmd`: The main R Markdown file that sources the other scripts, processes all .txt files from the Aozora and Gutenberg folders, applies the cleaning functions, and produces two output CSVs (aozora_summary.csv and gutenberg_summary.csv) containing the cleaned text statistics.
+2. `Final Report.Rmd`: R markup file. Contains the written report for this project. 
+3. `data`: Folder that contains the novels that are used for this project. The files that correspond to the given novels are defined above, seperated by Host Website. 
+4. `Data Processing`: This folder contains all scripts used to clean and summarize Japanese text data from the Aozora and Gutenberg collections. Together, these files handle library setup, text cleaning, and the generation of CSV summaries with character statistics.
+    1. `00_requirements.R`: Loads all required R packages (readr, stringr, dplyr) needed for data cleaning, string handling, and summarization.
+    2. `functions.R`: Defines the custom functions that clean the Japanese text files, removing headers, footers, Aozora markup, and non-Japanese characters, and compute character counts (kanji, hiragana, katakana, non-Japanese, etc.).
+    3. `build_jp_novels.Rmd`: The main R Markdown file that sources the other scripts, processes all .txt files from the Aozora and Gutenberg folders, applies the cleaning functions, and produces three output CSVs (aozora_summary.csv, gutenberg_summary.csv, and jp_novels.csv) containing the cleaned text statistics.
+5. `t-test`: Folder that contains the code necessary to run the T-Test
+    1. `T-Test:Aozora vs Gutenberg(Writing Systems).Rmd`: This document performs three two-sample t-tests comparing the number of Hiragana, Katakana, and Kanji characters between novels from Aozora website and the Project Gutenberg website.
+    2. `T-Test:Aozora vs Gutenberg(total characters).Rmd`: This document performs a two-sample t-test comparing the total number of characters in novels from Aozora website and the Project Gutenberg website. 
+    3. `T-Test for Difference in Writing System Distributions.Rmd`: This document is meant to compute the Two Sample T-Tests between the number of Hiragana, Katakana, and Kanji characters in our dataset. This is to determine whether or not there is a difference in the mean of characters of these three writing systems within all of the gathered novels. 
+6. `Graphs`: Folder that contains image versions of the graphs seen in the Final Report.
+    1. `Images`: Folder with the actual graph images.
+    2. `1. Graphs for Preliminary Analysis.Rmd`: File that generates Figures 1 through 5 in the Final Report. 
 
+## Dataframe and Variable Descriptions
+After cleaning the data and processing it (see "Reproducibility" section below), we end up with a file called `jp_novels.csv`. This data table contains the following variables:
+
+1. `site`: factor. A variable describing which of the Host Website (Gutenberg or Aozora) the novel came from.
+2. `body_chars_total`: numerical. Total number of characters in the actual text of the literature (excluding the characters found in the header/footer).
+3. `kanji`: numerical. Total number of characters from the body that are in Kanji.
+4. `hiragana`: numerical. Total number of characters from the body that are in Hiragana.
+5. `katakana`: numerical. Total number of characters from the body that are in Katakana.
+6. `japanese_total`: numerical. Total number of characters from the body that are in Japanese (`kanji` + `hiragana` + `katakana`).
+7. `non_japanese`: numerical. Total number of characters from the body that are NOT in Japanese.
+8. `removed_chars_header_footer`: numerical. Number of characters removed from the novel file as part of the header/footer.
+9. `removed_ascii_english`: numerical. Number of Latin-script characters (ie, characters in English) that was removed from the novel file.
+
+The files `aozora_summary.csv` and `gutenberg_summary.csv` contain the subset of `jp_novels.csv` that coorespond to its Host Website (obviously sans the variable "site"). 
+
+## Reproducibility
+In order to reproduce our results, please run the code from this repository in this order:
+1. Verify that all of the files from this repository have been downloaded correctly. Additionally, ensure that none of the files have been renamed or moved from their original locations. 
+2. Run the files in the `Data Processing` folder:
+    1. First, execute `00_requirements.R` once to install and load all the required packages.
+    2. Then, open and knit `build_jp_novels.Rmd`, which automatically sources both `00_requirements.R` and `functions.R`. This will process all the .txt files from the Aozora and Gutenberg folders, apply the cleaning functions, and generate the three summary CSVs in the same directory.
+3. Run `1. Graphs for Preliminary Analysis.Rmd` in the `Graphs` folder.
+4. Run all three files in the `t-test` folder in any order.
+
+By doing this, one can generate the results and graphs seen in our Final Report. 
