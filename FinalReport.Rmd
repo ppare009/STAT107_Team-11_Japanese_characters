@@ -104,7 +104,7 @@ With this clean dataset, one is ready to perform analysis.
 
 ## Part 3: Preliminary Analysis:
 
-After cleaning the data and organizing it into a single dataframe, it is possible to perform a preliminary analysis of the variables.
+After cleaning the data and organizing it into a single dataframe, jp_novels_df, we can begin with an investigation of the distributions of the three Japanese writing systems across the 20 sampled novels. This preliminary analysis aims to build an understanding for the structure of the data and to identify patterns that may explain and guide later procedures.
 
 Firstly, since they are the basis of this project, it is imperative to observe the distributions of Hiragana, Katakana, and Kanji within the sample data:
 
@@ -112,17 +112,21 @@ Firstly, since they are the basis of this project, it is imperative to observe t
 ![***Figure 1: Raw Distributions of Hiragana, Katakana, and Kanji***](Graphs/Images/1_raw_writing_systems.png)
 
 
-Based on these charts, it is apparent that the distributions for each of the three writing systems are quite skewed right. That is, there are many novels with a smaller counts of Hiragana, Katakana, and Kanji than there are larger counts of each writing system. Even so, it seems that there is a smaller spread of Katakana than there is of the other two writing systems. 
+Based on these charts, it is apparent that the distributions for each of the three writing systems are quite skewed right. While some novels carry very large counts of Hiragana, Katakana, and Kanji, most novels tend to have more adequate totals. This is expected because longer novels naturally contain more characters of every type. Compared to shorter works such as poems and essays, they contribute fewer overall characters. Even within this skewed formation, the spread of Katakana counts appears noticeably smaller than Hiragana or Kanji, suggesting a limited variable use of Katakana across sampled texts.
 
-However, it is possible that these results could be skewed by higher total character counts within given novels. To alleviate part of this, one can find the percentage of each novel's Japanese characters that belong to each writing system:
+However, interpreting raw character counts can be misleading because novels differ greatky in length and density of Japanese text. A novel with twice as many total characters will naturally have higher counts of every writing system. To account for this, it is helpful to standardize the data by examining the proportion of Japanese characters belonging to each writing system rather than raw counts. By converting counts to percentages we can accurately compare patterns across texts of varying lengths and avoiding extremely long works to heavily influence the distribution.
 
 
 ![***Figure 2: Proportional Distributions of Hiragana, Katakana, and Kanji***](Graphs/Images/2_proportional_writing_systems.png)
 
 
-Now that these values are standardized, one can see that the proportion of Hiragana seems fairly normal compared to the other two systems. In addition, for the novels seen, the proportion of the novels that are written in Katakana is far smaller than the proportions of the other two systems—reaching a mean of only 10% of the novels. 
+Now that each writing  system is expressed as a proportion of a novels total Japanese characters, the differences become much clearer. The distribution of Hiragana appears to be fairly symmetric and centered suggesting that Hiragana is used at consistent rates across the sampled texts. Given Hiragana's role in gramatical structure, this makes sense. Its usage tends to be stable regardless of genre or author.
+  
+The proportion of Katakana is much smaller on average and more close to zero than the other two distributions. Most of the novels use Katakana sparingly, likely because Katakana typically appears in specific contexts such as sound effects, foreign names, or emphasis. The mean Katakana proportion in the dataset is roughly 10%, supporting the claim that Katakana is the least commonly used of the three writing systems.
 
-Additionally, it is interesting to note the difference in the distributions of Hiragana, Katakana, and Kanji between both the Gutenberg and Aozora sites:
+Kanji shows the widest range in proportional use. Some novels rely heavily on Kanji, especially older and more formal texts, while others include much lower Kanji density, depending on author style and intended genre. This variability suggests that Kanji usage depends on style of writing and could differ between translated works and originally Japanese works, making it a key variable for later comparison.
+
+Additionally, these trends set the stage for the next stage of analysis: comparing the distributions of Hiragana, Katakana, and Kanji between texts hosted on websites such as Gutenberg (translates into Japanese) and Aozora(originally Japanese works). Differences observed here can reflect meaningful differences between translated and native literature.
 
 
 ![***Figure 3: Distribution of Hiragana in Japanese Novels, Split by Host Website***](Graphs/Images/3_hiragana_split_by_website.png)
@@ -130,7 +134,7 @@ Additionally, it is interesting to note the difference in the distributions of H
 ![***Figure 5: Distribution of Kanji in Japanese Novels, Split by Host Website***](Graphs/Images/5_kanji_split_by_website.png)
 
 
-These graphs seem to suggest a very clear difference in the distributions of the three systems between Aozora and Gutenberg—indicating merit in analyzing the differences between these two websites' novels further.
+Figures 3, 4, and 5 illustrate how the proportional usage of Hiragana, Katakana, and Kanji differs between Aozora and Gutenberg texts. The separation between the two groups is visually apparent. In the Hirigana distributions, Gutenberg novels tend to carry a slightly higher proportional range, while Aozora novels cluster lower. A similar pattern appears for Katakana, although both websites show low overall usage, the Gutenberg texts again display higher values, while Aozora texts remain tightly grouped toward the lower end. Figure 5 shows a similar pattern for Kanji proportions, though the separation between the two websites is more prominent. Gutenberg novels cluster within a narrower range, while Aozora novels span a wider range. Aozora texts tend to rely more heavily on Kanju than Gutenberg. These differences provide further evidence that the two sources represent distinct structural patterns.
 
 With this preliminary analysis complete, it is now possible to move to more complicated analysis. 
 
@@ -209,3 +213,4 @@ The positive values in the 95% Confidence Interval for Test 1 seems to suggest t
 2. Isabella Perez: Wrote the Introduction section of the report. 
 
 3. Ulices Ramirez Lopez:  Built an R Markdown workflow to automatically clean the Japanese text files from Aozora and Gutenberg. The main goal was to remove unnecessary parts like headers, footers, and any non-Japanese or English characters. Did this by reading each .txt file, converting the text to UTF-8, cutting out lines before and after certain markers (like ----- and 底本：), and deleting inline Aozora markup such as ［＃...］, 《...》, and ｜. After cleaning, the script counted only Japanese characters (kanji, hiragana, and katakana) to measure how much of the text remained. Finally, it saved two CSV summaries, one for Aozora and one for Gutenberg — showing the cleaned results for each file.
+
