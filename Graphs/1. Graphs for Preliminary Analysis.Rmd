@@ -1,0 +1,91 @@
+---
+title: "Graphs for Preliminary Analysis"
+output: html_notebook
+---
+
+This file is meant to generate the graphs/figures seen within the Data Cleaning/Preliminary Analysis sections (Parts 1-3) of the Final Project Report. 
+
+# Figure 0: jp_novels_df
+
+```{r fig0, echo=FALSE}
+library(ggplot2)
+
+jp_novels_df <- read.csv("../Data Processing/jp_novels.csv")
+  
+head(jp_novels_df, 10)
+```
+
+
+
+# Figure 1: Raw Distributions of Hiragana, Katakana, and Kanji
+
+```{r fig1, echo=FALSE}
+# [NOTE]: Figure 1
+
+par(mfrow = c(1, 3))
+
+boxplot(jp_novels_df$hiragana, main = "Hiragana Distribution", 
+        ylim = c(0, 150000), col = rgb(1, 0, 0, 0.25))
+boxplot(jp_novels_df$katakana, main = "Katakana Distribution",  sub = "Figure 1",
+        ylim = c(0, 150000), col = rgb(0, 1, 0, 0.25))
+boxplot(jp_novels_df$kanji, main = "Kanji Distribution", 
+        ylim = c(0, 150000), col = rgb(0, 0, 1, 0.25))
+```
+
+
+# Figure 2: Proportional Distributions of Hiragana, Katakana, and Kanji
+
+```{r fig2, echo=FALSE}
+# [NOTE]: Figure 2
+
+# [STEP 1]: Create a new column in `jp_novels_df` that represents the proportion of each novel's Japanese characters that are part of a given writing system.
+jp_novels_df$hiragana_proportion <- jp_novels_df$hiragana / jp_novels_df$japanese_total
+jp_novels_df$katakana_proportion <- jp_novels_df$katakana / jp_novels_df$japanese_total
+jp_novels_df$kanji_proportion <- jp_novels_df$kanji / jp_novels_df$japanese_total
+
+# [STEP 2]: Display 
+par(mfrow = c(1, 3))
+
+boxplot(jp_novels_df$hiragana_proportion, 
+        main = "Hiragana Proportion Distribution",
+        cex.main = 0.9,
+        ylim = c(0, 1), col = rgb(1, 0, 0, 0.25))
+boxplot(jp_novels_df$katakana_proportion, 
+        main = "Katakana Proportion Distribution",  sub = "Figure 2",
+        cex.main = 0.9,
+        ylim = c(0, 1), col = rgb(0, 1, 0, 0.25))
+boxplot(jp_novels_df$kanji_proportion, 
+        main = "Kanji Proportion Distribution", 
+        cex.main = 0.9,
+        ylim = c(0, 1), col = rgb(0, 0, 1, 0.25))
+
+```
+
+
+
+# Figures 3 to 5: Distribution of Japanese Writig Systems in Japanese Novels, Split by Host Website
+
+```{r fig3-fig5, echo=FALSE}
+# [NOTE]: Figures 3 through 5
+
+ggplot(jp_novels_df, aes(x = hiragana_proportion)) + 
+  geom_boxplot(aes(col = site)) + xlim(0, 0.8) + 
+  ggtitle("Distribution of Hiragana in Japanese Novels, Split by Host Website",
+          subtitle = "Figure 3") + 
+  xlab("Proportion of Novel")
+
+ggplot(jp_novels_df, aes(x = katakana_proportion)) + 
+  geom_boxplot(aes(col = site)) + xlim(0, 0.8) +
+  ggtitle("Distribution of Katakana in Japanese Novels, Split by Host Website",
+          subtitle = "Figure 4") +
+  xlab("Proportion of Novel")
+
+ggplot(jp_novels_df, aes(x = kanji_proportion)) + 
+  geom_boxplot(aes(col = site)) + xlim(0, 0.8) +
+  ggtitle("Distribition of Kanji in Japanese Novels, Split by Host Website",
+          subtitle = "Figure 5") +
+  xlab("Proportion of Novel")
+
+```
+
+
