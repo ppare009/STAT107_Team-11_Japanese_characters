@@ -30,7 +30,7 @@ For this project, we will observe several novels from both the (Gutenberg)[www.g
 We chose these sites due to the types of literature within them. From what we observed, the Japanese selection on Gutenberg mostly consists of works translated TO Japanese, while Aozora mostly consists of works written ORIGINALLY in Japanese. Thus, collecting a sample from both of the sites can provide insights as to how the distribution of each of the three writings systems differ between originally-Japanese works and works translated to Japanese. 
 
 We randomly selected 10 novels from both websites. However, this was done differently for both websites. For the noveles on the Gutenberg website, a simple random selection of all the Japanese language books on the site was conducted.
-However, this was not necessairly possible on Aozora—as the only way to see a masterlist of all of the novels is through sorting by authors. Thus, we ran a SRS on the authors that are not under copyright, and randomly select one of their novels (if they have multiple novels listed under their authorship).
+However, this was not necessarily possible on Aozora—as the only way to see a masterlist of all of the novels is through sorting by authors. Thus, we ran a SRS on the authors that are not under copyright, and randomly select one of their novels (if they have multiple novels listed under their authorship).
 
 The novels we ended up selecting  (and their file names) are the following: 
 
@@ -89,7 +89,7 @@ Firstly, since they are the basis of this project, it is imperative to observe t
 
 Based on these charts, it is apparent that the distributions for each of the three writing systems are quite skewed right. While some novels carry very large counts of Hiragana, Katakana, and Kanji, most novels tend to have more adequate totals. This is expected because longer novels naturally contain more characters of every type. Compared to shorter works such as poems and essays, they contribute fewer overall characters. Even within this skewed formation, the spread of Katakana counts appears noticeably smaller than Hiragana or Kanji, suggesting a limited variable use of Katakana across sampled texts.
 
-However, interpreting raw character counts can be misleading because novels differ greatky in length and density of Japanese text. A novel with twice as many total characters will naturally have higher counts of every writing system. To account for this, it is helpful to standardize the data by examining the proportion of Japanese characters belonging to each writing system rather than raw counts. By converting counts to percentages we can accurately compare patterns across texts of varying lengths and avoiding extremely long works to heavily influence the distribution.
+However, interpreting raw character counts can be misleading because novels differ greatly in length and density of Japanese text. A novel with twice as many total characters will naturally have higher counts of every writing system. To account for this, it is helpful to standardize the data by examining the proportion of Japanese characters belonging to each writing system rather than raw counts. By converting counts to percentages we can accurately compare patterns across texts of varying lengths and avoiding extremely long works to heavily influence the distribution.
 
 
 ![***Figure 2: Proportional Distributions of Hiragana, Katakana, and Kanji***](Graphs/Images/2_proportional_writing_systems.png)
@@ -109,7 +109,7 @@ Additionally, these trends set the stage for the next stage of analysis: compari
 ![***Figure 5: Distribution of Kanji in Japanese Novels, Split by Host Website***](Graphs/Images/5_kanji_split_by_website.png)
 
 
-Figures 3, 4, and 5 illustrate how the proportional usage of Hiragana, Katakana, and Kanji differs between Aozora and Gutenberg texts. The separation between the two groups is visually apparent. In the Hirigana distributions, Gutenberg novels tend to carry a slightly higher proportional range, while Aozora novels cluster lower. A similar pattern appears for Katakana, although both websites show low overall usage, the Gutenberg texts again display higher values, while Aozora texts remain tightly grouped toward the lower end. Figure 5 shows a similar pattern for Kanji proportions, though the separation between the two websites is more prominent. Gutenberg novels cluster within a narrower range, while Aozora novels span a wider range. Aozora texts tend to rely more heavily on Kanju than Gutenberg. These differences provide further evidence that the two sources represent distinct structural patterns.
+Figures 3, 4, and 5 illustrate how the proportional usage of Hiragana, Katakana, and Kanji differs between Aozora and Gutenberg texts. The separation between the two groups is visually apparent. In the Hirigana distributions, Gutenberg novels tend to carry a slightly higher proportional range, while Aozora novels cluster lower. A similar pattern appears for Katakana, although both websites show low overall usage, the Gutenberg texts again display higher values, while Aozora texts remain tightly grouped toward the lower end. Figure 5 shows a similar pattern for Kanji proportions, though the separation between the two websites is more prominent. Gutenberg novels cluster within a narrower range, while Aozora novels span a wider range. Aozora texts tend to rely more heavily on Kanji than Gutenberg. These differences provide further evidence that the two sources represent distinct structural patterns.
 
 With this preliminary analysis complete, it is now possible to move to more complicated analysis. 
 
@@ -176,7 +176,7 @@ The positive values in the 95% Confidence Interval for Test 1 seems to suggest t
 
 ### Part 4.2: Two-Sample T-Test for Difference in Hosting Website Distribution Means(Character Counts):
 
-Based on the results of the Welch two-sample t-test, there is strong statistical evidence of a difference in the mean total number of characters between novels obtained from Aozora and those obtained from Project Gutenberg. The 95% confidence interval for the difference in means [−149,882.97, −42,401.83] does not contain zero, and the associated p-value of 0.00209 is far below our significance threshold of 𝛼=0.05. Together, these findings indicate that we reject the null hypothesis that the two websites produce novels with similar average lengths.
+Based on the results of the Welch two-sample t-test, there is strong statistical evidence of a difference in the mean total number of characters between novels obtained from Aozora and those obtained from Project Gutenberg. The 95% confidence interval for the difference in means [−149,882.97, −42,401.83] does not contain zero, and the associated p-value of 0.00209 is far below our significance threshold of 𝛼=0.05. Together, these findings indicate that we reject the null hypothesis that the two websites produce novels with similar average lengths.
 
 Furthermore, the sample means provide additional insight into the practical magnitude of this difference. Aozora novels in our sample contain an average of 17670.8 characters, while Gutenberg novels contain an average of 113,813.2 characters. This substantial gap suggests that, within the novels we collected, Gutenberg tends to host significantly longer works than Aozora. This aligns with the different literary focuses of the two platforms: Gutenberg primarily archives full-length Western novels, while Aozora includes a wider variety of Japanese texts, including shorter essays, folktales, and serialized literature.
 
@@ -197,11 +197,8 @@ Overall, the statistical evidence shows that Gutenberg novels contain significan
 [insert here]
 
 ## Part 6: Team Member Contributions:
-1. Pankshi Parekar: Created/Organized the GitHub repository. Created/Organized the Final Report. Ran the Simple Random Selections for choosing the novels for analysis, and prepared the `data` folder in the GitHub repository accordingly.  Wrote the Abstract, as well as parts 1, 3, and 4 in the report. 
+1. Pankshi Parekar: Created/Organized the GitHub repository. Created/Organized the Final Report. Ran the Simple Random Selections for choosing the novels for analysis, and prepared the `data` folder in the GitHub repository accordingly. Wrote the Abstract, as well as parts 1, 3, 4.1, and the opening of section 4 in the report. Created Figures 1-6.
 
-2. Isabella Perez: Wrote the Introduction section of the report. 
+2. Isabella Perez: Wrote the Introduction and Conclusion sections of the report, as well as parts 3.
 
 3. Ulices Ramirez Lopez:  Built an R Markdown workflow to automatically clean the Japanese text files from Aozora and Gutenberg. The main goal was to remove unnecessary parts like headers, footers, and any non-Japanese or English characters. Did this by reading each .txt file, converting the text to UTF-8, cutting out lines before and after certain markers (like ----- and 底本：), and deleting inline Aozora markup such as ［＃...］, 《...》, and ｜. After cleaning, the script counted only Japanese characters (kanji, hiragana, and katakana) to measure how much of the text remained. Finally, it saved two CSV summaries, one for Aozora and one for Gutenberg — showing the cleaned results for each file.
-
-
-
