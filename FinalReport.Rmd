@@ -1,6 +1,8 @@
 ---
 title: "STAT 107 Final Project—Final Report"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 date: "`r Sys.Date()`"
 ---
 
@@ -115,11 +117,13 @@ After cleaning the data and organizing it into a single dataframe, it is possibl
 Firstly, since they are the basis of this project, it is imperative to observe the distributions of Hiragana, Katakana, and Kanji within the sample data:
 
 ```{r, echo=FALSE}
+# [NOTE]: Figure 1
+
 par(mfrow = c(1, 3))
 
 boxplot(jp_novels_df$hiragana, main = "Hiragana Distribution", 
         ylim = c(0, 150000), col = rgb(1, 0, 0, 0.25))
-boxplot(jp_novels_df$katakana, main = "Katakana Distribution", 
+boxplot(jp_novels_df$katakana, main = "Katakana Distribution",  sub = "Figure 1",
         ylim = c(0, 150000), col = rgb(0, 1, 0, 0.25))
 boxplot(jp_novels_df$kanji, main = "Kanji Distribution", 
         ylim = c(0, 150000), col = rgb(0, 0, 1, 0.25))
@@ -130,6 +134,8 @@ Based on these charts, it is apparent that the distributions for each of the thr
 However, it is possible that these results could be skewed by higher total character counts within given novels. To alleviate part of this, one can find the percentage of each novel's Japanese characters that belong to each writing system:
 
 ```{r, echo=FALSE}
+# [NOTE]: Figure 2
+
 # [STEP 1]: Create a new column in `jp_novels_df` that represents the proportion of each novel's Japanese characters that are part of a given writing system.
 jp_novels_df$hiragana_proportion <- jp_novels_df$hiragana / jp_novels_df$japanese_total
 jp_novels_df$katakana_proportion <- jp_novels_df$katakana / jp_novels_df$japanese_total
@@ -138,11 +144,17 @@ jp_novels_df$kanji_proportion <- jp_novels_df$kanji / jp_novels_df$japanese_tota
 # [STEP 2]: Display 
 par(mfrow = c(1, 3))
 
-boxplot(jp_novels_df$hiragana_proportion, main = "Hiragana Distribution", 
+boxplot(jp_novels_df$hiragana_proportion, 
+        main = "Hiragana Proportion Distribution",
+        cex.main = 0.9,
         ylim = c(0, 1), col = rgb(1, 0, 0, 0.25))
-boxplot(jp_novels_df$katakana_proportion, main = "Katakana Distribution", 
+boxplot(jp_novels_df$katakana_proportion, 
+        main = "Katakana Proportion Distribution",  sub = "Figure 2",
+        cex.main = 0.9,
         ylim = c(0, 1), col = rgb(0, 1, 0, 0.25))
-boxplot(jp_novels_df$kanji_proportion, main = "Kanji Distribution", 
+boxplot(jp_novels_df$kanji_proportion, 
+        main = "Kanji Proportion Distribution", 
+        cex.main = 0.9,
         ylim = c(0, 1), col = rgb(0, 0, 1, 0.25))
 
 ```
@@ -152,20 +164,31 @@ Now that these values are standardized, one can see that the proportion of Hirag
 Additionally, it is interesting to note the difference in the distributions of Hiragana, Katakana, and Kanji between both the Gutenberg and Aozora sites:
 
 ```{r, echo=FALSE}
+# [NOTE]: Figures 3 through 5
+
 ggplot(jp_novels_df, aes(x = hiragana_proportion)) + 
- geom_boxplot(aes(col = site))
+  geom_boxplot(aes(col = site)) + xlim(0, 0.8) + 
+  ggtitle("Distribution of Hiragana in Japanese Novels, Split by Host Website",
+          subtitle = "Figure 3") + 
+  xlab("Proportion of Novel")
 
 ggplot(jp_novels_df, aes(x = katakana_proportion)) + 
-  geom_boxplot(aes(col = site))
+  geom_boxplot(aes(col = site)) + xlim(0, 0.8) +
+  ggtitle("Distribution of Katakana in Japanese Novels, Split by Host Website",
+          subtitle = "Figure 4") +
+  xlab("Proportion of Novel")
 
 ggplot(jp_novels_df, aes(x = kanji_proportion)) + 
-  geom_boxplot(aes(col = site))
+  geom_boxplot(aes(col = site)) + xlim(0, 0.8) +
+  ggtitle("Distribition of Kanji in Japanese Novels, Split by Host Website",
+          subtitle = "Figure 5") +
+  xlab("Proportion of Novel")
+
 ```
 
 These graphs seem to suggest a very clear difference in the distributions of the three systems between Aozora and Gutenberg—indicating merit in analyzing the differences between these two websites' novels further.
 
 With this preliminary analysis complete, it is now possible to move to more complicated analysis. 
-
 
 ## Part 4: Analysis:
 
@@ -175,7 +198,7 @@ In addition, to determine if there is a significant difference between the distr
 
 Via these tests, it is possible to answer the questions that were proposed at the beginning of this report. 
 
-### Part 4.1: Pre-Test Screening:
+### Part 4.1: Two-Sample T-Test for Difference in Writing System Distribution Means:
 
 According to [The University of Austin, Texas](https://sites.utexas.edu/sos/guided/inferential/numeric/onecat/2-groups/independent/two-sample-t/), in order to run a Two-Sample T-Test, there are some assumptions to be made:
 
@@ -185,25 +208,71 @@ According to [The University of Austin, Texas](https://sites.utexas.edu/sos/guid
 
 3. The population variances of both datasets are equal.
 
-As each data point within our sample comes from its own novel, each observation in the overall dataset is independent of one another. Assuming that the datasets are normally distributed (as suggested by the distributions of the PROPORTIONS of each writing system present within the novels), it is important to check that the variances of the datasets are equal as well. When calculated, the variances of the proportions of each writing system is the following:
+Thus, in order to analyze whether or not there is a difference in the mean number of characters of these three writing systems within all of the gathered novels, it is important to verify these conditions hold.
 
-- Hiragana: 0.004398621
+Since each datapoint that we are using come from unique novels, and these novels were randomly selected from the greater selection of novels present in both Aozora and Gutenberg, it is safe to say that the observations in our compared datsets are independent.
 
-- Katakana: 0.00310443
+However, according to the distributions seen in Figure 1, it is evident that the distributions of Hiragana, Katakana, and Kanji characters are extremely right-skewed—voiding the normality assumption required for the t-Test. In order to remedy this, we apply a log transformation to the measurements in question. The resulting distributions are the following:
 
-- Kanji: 0.003975239
+```{r, echo=FALSE}
+# [NOTE]: Figure 6
 
-Since the sample variances for the proportional values of Hiragana, Katakana, and Kanji in our sample are within 0.0015 characters of one another, it is reasonable to assume that the variances for each of these datasets are quite close to one another—if not equal.
+log_hiragana <- log(jp_novels_df$hiragana)
+log_katakana <- log(jp_novels_df$katakana)
+log_kanji <- log(jp_novels_df$kanji)
 
-Thus, knowing that condition 2 is met, and assuming conditions 1 and 3 are met, it is possible to continue with the two-sample t-tests.
 
-Note that we are performing these t-tests for the proportional values of Hiragana, Katakana, and Kanji—as these are the measurements that we assume to be more normally distributed. 
+par(mfrow = c(1, 3))
 
-### Part 4.2: Two-Sample T-Test for Difference in Writing System Distribution Means:
+boxplot(log_hiragana, 
+        main = "Log-Transformed Hiragana Distribution", 
+         cex.main = 0.75,
+        ylim = c(0, 15), col = rgb(1, 0, 0, 0.25))
+boxplot(log_katakana, 
+        main = "Log-Transformed Katakana Distribution",  sub = "Figure 6",
+         cex.main = 0.75,
+        ylim = c(0, 15), col = rgb(0, 1, 0, 0.25))
+boxplot(log_kanji, 
+        main = "Log-Transformed Kanji Distribution", 
+        cex.main = 0.75,
+        ylim = c(0, 15), col = rgb(0, 0, 1, 0.25))
+```
 
-[tbd]
+After performing this transformation, the data seems to be far closer to the normal distribution than before. Thus, it is possible for the normalcy condition to be met, provide that these log-transformed values of Hiragana, Katakana, and Kanji counts are used for analysis instead of the original values.
 
-### Part 4.3: Two-Sample T-Test for Difference in Hosting Webstite Distribution Means:
+Finally, one should check the variances of the log-transformed data. When calculated using the base-R function `var()`, the following results arose: 
+
+- Hiragana: 3.143388 characters²
+
+- Katakana: 3.148605 characters²
+
+- Kanji: 2.71181 characters²
+
+In this instance, the variances of the log-transformed Hiragana counts and log-transformed Katakana counts are extremely similar (differint by just over 0.005 characters²), while the variance of the log-transformed Kanji count is lower than both of them. This means that the variances of the transformed Hiragana and Katakana counts could be similar, while the variances of any combination with Kanji will not be similar.
+
+
+In summary, using the log-transformation, it is reasonable to assume independence and normality (assumptions 1 and 2). However, it cannot be definitively assumed that the variances between each writing system are equal. 
+
+To be safe, instead of the common Student's t-Test, one can use the Welch t-Test. This version of the t-Test still assumes normality and independence, but does NOT require equal variances between the two distributions in question. This version of the t-Test is perfect for our needs. 
+
+With this preliminary screening complete, it is time to perform the Two-Sample T-Tests for Difference in Means. 
+
+For each of these tests, the null hypothesis is that $\mu_1 = \mu_2$, and the alternate hypothesis is that $\mu_1 \neq \mu_2$. The results of these t-tests will be compared to an alpha level of $\alpha = 0.05$. 
+
+To complete this step, we used the `t.test()` function in R—of which calculates The values of $\mu_1$ and $\mu_2$, as well as the results of these tests, are the following:
+
+| Test # | Hiragana | Katakana | Kanji | 95% Confidence Interval | p-value | 
+| ----- | -------- | -------- | --------- | -------------------- | ----- |
+| 1 | $\mu_1$ | $\mu_2$ | N/A | [0.5098914, 2.7808238] | 0.005655 |
+| 2 | $\mu_1$ | N/A | $\mu_2$ | [-0.5614726,  1.6296081] | 0.3299 |
+| 3 | N/A | $\mu_1$ | $\mu_2$ | [-2.20732265, -0.01525716] | 0.04705 |
+
+Based on these results, it seems that there is a statistically significant difference in the means between the distributions of Katakana and the remaining two writing systems. However, interestingly, there is no evidence to suggest that the the distributions of Hiragana and Kanji are different for Japanese novels obtained on Gutenberg and Aozora.
+
+The positive values in the 95% Confidence Interval for Test 1 seems to suggest that the mean number of Hiragana characters is larger than the mean number of Katakana characters. Likewise, the negative values in the 95% Confidence Interval for Test 3 suggest a higher mean number of Kanji than Katakana characters. In hindsight, this result makes sense. According to [Tae Kim's online Japanese Learning resource "A Guide to Learn Japanese Grammar"](https://guidetojapanese.org/learn/category/grammar-guide/the-writing-system/), despite being a phonetic writing system like Hiragana, Katakana's main purpose is to translate western words into Japanese. This contrasts the wider usages of Hiragana and Kanji in Japanese—as both systems are essential for written grammar. Thus, since Katakana is used less often compared to both Hiragana and Kanji, it makes sense as to why the mean for Katakana is statistically lower than that of both Hiragana and Kanji. 
+
+
+### Part 4.2: Two-Sample T-Test for Difference in Hosting Webstite Distribution Means:
 
 [tbd]
 
@@ -217,6 +286,3 @@ Note that we are performing these t-tests for the proportional values of Hiragan
 2. Isabella Perez: Wrote the Introduction section of the report. 
 
 3. Ulices Ramirez Lopez:  Built an R Markdown workflow to automatically clean the Japanese text files from Aozora and Gutenberg. The main goal was to remove unnecessary parts like headers, footers, and any non-Japanese or English characters. Did this by reading each .txt file, converting the text to UTF-8, cutting out lines before and after certain markers (like ----- and 底本：), and deleting inline Aozora markup such as ［＃...］, 《...》, and ｜. After cleaning, the script counted only Japanese characters (kanji, hiragana, and katakana) to measure how much of the text remained. Finally, it saved two CSV summaries, one for Aozora and one for Gutenberg — showing the cleaned results for each file.
-
-
-
