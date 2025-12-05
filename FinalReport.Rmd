@@ -192,6 +192,12 @@ These results reflect structural differences in how each platform curates its li
 
 Overall, the statistical evidence shows that Gutenberg novels contain significantly more Hiragana, Katakana, and Kanji characters than Aozora novels, reinforcing the broader conclusion that Gutenberg’s texts are substantially longer and compositionally denser across all major Japanese writing systems.
 
+| Test # | Writing System | Mean (Aozora) | Mean (Gutenberg) | 95% Confidence Interval            | p-value   |
+|-------|----------------|----------------|-------------------|------------------------------------|-----------|
+| 1     | Hiragana       | 11,958.7       | 64,849.6          | [-90,772.34, -15,009.46]           | 0.009965  |
+| 2     | Katakana       | 1,446.7        | 15,947.7          | [-25,882.305, -3,119.695]          | 0.01792   |
+| 3     | Kanji          | 6,277.2        | 32,547.3          | [-44,220.753, -8,319.447]          | 0.007955  |
+
 ## Part 5: Conclusion:
 
 [insert here]
@@ -202,3 +208,4 @@ Overall, the statistical evidence shows that Gutenberg novels contain significan
 2. Isabella Perez: Wrote the Introduction and Conclusion sections of the report, as well as parts 3.
 
 3. Ulices Ramirez Lopez:  Built an R Markdown workflow to automatically clean the Japanese text files from Aozora and Gutenberg. The main goal was to remove unnecessary parts like headers, footers, and any non-Japanese or English characters. Did this by reading each .txt file, converting the text to UTF-8, cutting out lines before and after certain markers (like ----- and 底本：), and deleting inline Aozora markup such as ［＃...］, 《...》, and ｜. After cleaning, the script counted only Japanese characters (kanji, hiragana, and katakana) to measure how much of the text remained. Finally, it saved two CSV summaries, one for Aozora and one for Gutenberg — showing the cleaned results for each file.
+
