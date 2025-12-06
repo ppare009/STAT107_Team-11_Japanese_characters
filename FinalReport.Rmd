@@ -71,15 +71,35 @@ From Aozora:
 
 In order to extract how many Hiragana, Katakana, and Kanji characters that a novel has, we first take a subset of entire `.txt` file that does not contain the header/footer information added by the novel's Host Website (Aozora or Gutenberg). Then, we iterated over each character in the novel, classified it as either Hiragana, Katakana, or Kanji (or skipped it if it was not a Japanese character), and added it to the total sum of the writing system that it was classified as. Finally, we recorded the derived sum of Hiragana, Katakana, and Kanji. 
 
-This process was repeated for every novel in our sample. The Host Website, total number of characters, total number of Hiragana, Katakana, and Kanji in each novel, etc. was saved in the the following table`jp_novels.csv`. A snippet of this table is provided below:
+This process was repeated for every novel in our sample. The Host Website, total number of characters, total number of Hiragana, Katakana, and Kanji in each novel, etc. was saved in the the table`jp_novels.csv`. A snippet of this table is provided below:
 
 ![***Figure 0: First 10 entries of `jp_novels.csv`***](Graphs/Images/0_jp_novels_df.png)
+
+This table contained several variables. The following is a brief explanation of each:
+
+1. `site`: factor. A variable describing which of the Host Website (Gutenberg or Aozora) the novel came from.
+
+2. `body_chars_total`: numerical. Total number of characters in the actual text of the literature (excluding the characters found in the header/footer).
+
+3. `kanji`: numerical. Total number of characters from the body that are in Kanji.
+
+4. `hiragana`: numerical. Total number of characters from the body that are in Hiragana.
+
+5. `katakana`: numerical. Total number of characters from the body that are in Katakana.
+
+6. `japanese_total`: numerical. Total number of characters from the body that are in Japanese (`kanji` + `hiragana` + `katakana`).
+
+7. `non_japanese`: numerical. Total number of characters from the body that are NOT in Japanese.
+
+8. `removed_chars_header_footer`: numerical. Number of characters removed from the novel file as part of the header/footer.
+
+9. `removed_ascii_english`: numerical. Number of Latin-script characters (ie, characters in English) that was removed from the novel file.
 
 With this clean dataset, one is ready to perform analysis. 
 
 ## Part 3: Preliminary Analysis
 
-After cleaning the data and organizing it into a single dataframe, jp_novels_df, we can begin with an investigation of the distributions of the three Japanese writing systems across the 20 sampled novels. This preliminary analysis aims to build an understanding for the structure of the data and to identify patterns that may explain and guide later procedures.
+After cleaning the data and organizing it into a single dataframe, we can begin with an investigation of the distributions of the three Japanese writing systems across the 20 sampled novels. This preliminary analysis aims to build an understanding for the structure of the data and to identify patterns that may explain and guide later procedures.
 
 Firstly, since they are the basis of this project, it is imperative to observe the distributions of Hiragana, Katakana, and Kanji within the sample data:
 
