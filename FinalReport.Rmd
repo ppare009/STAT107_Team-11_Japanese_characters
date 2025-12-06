@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Abstract
-In Japanese, there are three main writing systems: Hiragana, Katakana, and Kanji. Hiragana and Katakana are both phonetic-based (i.e., every character represents a sound), while Kanji is pictorial (i.e., each character represents a concept). While each writing system represents the same set of sounds, for individuals learning how to read in Japanese, it is often confusing to know which writing system to learn first. Should an individual's goal in learning Japanese be to read novels, it is interesting to know what writing system one would encounter the most—as to most efficiently tailor their learning experience to meet their goals. 
+In Japanese, there are three main writing systems: Hiragana, Katakana, and Kanji. Hiragana and Katakana are both phonetic-based (i.e., every character represents a sound), while Kanji (the writing system borrowed from Chinese) is pictorial (i.e., each character represents a concept). While each writing system represents the same set of sounds, for individuals learning how to read in Japanese, it is often confusing to know which writing system to learn first. Should an individual's goal in learning Japanese be to read novels, it is interesting to know what writing system one would encounter the most—as to most efficiently tailor their learning experience to meet their goals. 
 
 Thus, we plan to sample 20 books from the online sources Gutenberg and Aozora to analyze the overall distribution of Hiragana, Katakana, and Kanji within them. 
 
@@ -25,7 +25,7 @@ The purpose of this analysis is to examine the distribution of the three main Ja
 
 ## Part 1: Data 
 
-For this project, we will observe several novels from both the (Gutenberg)[www.gutenberg.org] website and the (Aozora)[https://www.aozora.gr.jp/.] website. Gutenberg is an English-based online library consisting of several eBooks in the public domain. Likewise, Aozora is a Japanese-based online library serving the same purpose. 
+For this project, we will observe several novels from both the [Gutenberg](www.gutenberg.org) website and the [Aozora](https://www.aozora.gr.jp/.) website. Gutenberg is an English-based online library consisting of several eBooks in the public domain. Likewise, Aozora is a Japanese-based online library serving the same purpose. 
 
 We chose these sites due to the types of literature within them. From what we observed, the Japanese selection on Gutenberg mostly consists of works translated TO Japanese, while Aozora mostly consists of works written ORIGINALLY in Japanese. Thus, collecting a sample from both of the sites can provide insights as to how the distribution of each of the three writings systems differ between originally-Japanese works and works translated to Japanese. 
 
@@ -67,17 +67,17 @@ From Aozora:
 | "kojiki_monogatari.txt" | 女の顔 | Kuroda, Seiki | https://www.aozora.gr.jp/cards/000257/card1425.html |
 
 ---
-## Part 2: Data Cleaning/Processing:
+## Part 2: Data Cleaning/Processing
 
-In order to extrat how many Hiragana, Katakana, and Kanji characters that a novel has, we first take a subset of entire `.txt` file that does not contain the header/footer information added by the novel's Host Website (Aozora or Gutenberg). Then, we itterated over each character in the novel, classified it as either Hiragana, Katakana, or Kanji, and added it to the total sum of the writing system that it was classified as. Finally, we recoded the derrived sum of Hiragana, Katakana, and Kanji. 
+In order to extract how many Hiragana, Katakana, and Kanji characters that a novel has, we first take a subset of entire `.txt` file that does not contain the header/footer information added by the novel's Host Website (Aozora or Gutenberg). Then, we iterated over each character in the novel, classified it as either Hiragana, Katakana, or Kanji (or skipped it if it was not a Japanese character), and added it to the total sum of the writing system that it was classified as. Finally, we recorded the derived sum of Hiragana, Katakana, and Kanji. 
 
-This process was repeated for every novel in our sample. The Host Website, total number of characters, total number of Hiragana, Katakana, and Kanji in each novel, etc. was saved in the table `jp_novels_df`. 
+This process was repeated for every novel in our sample. The Host Website, total number of characters, total number of Hiragana, Katakana, and Kanji in each novel, etc. was saved in the the following table`jp_novels.csv`. A snippet of this table is provided below:
 
-![***Figure 0: First 10 entries of `jp_novels_df`***](Graphs/Images/0_jp_novels_df.png)
+![***Figure 0: First 10 entries of `jp_novels.csv`***](Graphs/Images/0_jp_novels_df.png)
 
 With this clean dataset, one is ready to perform analysis. 
 
-## Part 3: Preliminary Analysis:
+## Part 3: Preliminary Analysis
 
 After cleaning the data and organizing it into a single dataframe, jp_novels_df, we can begin with an investigation of the distributions of the three Japanese writing systems across the 20 sampled novels. This preliminary analysis aims to build an understanding for the structure of the data and to identify patterns that may explain and guide later procedures.
 
@@ -95,7 +95,7 @@ However, interpreting raw character counts can be misleading because novels diff
 ![***Figure 2: Proportional Distributions of Hiragana, Katakana, and Kanji***](Graphs/Images/2_proportional_writing_systems.png)
 
 
-Now that each writing  system is expressed as a proportion of a novels total Japanese characters, the differences become much clearer. The distribution of Hiragana appears to be fairly symmetric and centered suggesting that Hiragana is used at consistent rates across the sampled texts. Given Hiragana's role in gramatical structure, this makes sense. Its usage tends to be stable regardless of genre or author.
+Now that each writing  system is expressed as a proportion of a novels total Japanese characters, the differences become much clearer. The distribution of Hiragana appears to be fairly symmetric and centered—suggesting that Hiragana is used at consistent rates across the sampled texts. Given Hiragana's role in gramatical structure, this makes sense. Its usage tends to be stable regardless of genre or author.
   
 The proportion of Katakana is much smaller on average and more close to zero than the other two distributions. Most of the novels use Katakana sparingly, likely because Katakana typically appears in specific contexts such as sound effects, foreign names, or emphasis. The mean Katakana proportion in the dataset is roughly 10%, supporting the claim that Katakana is the least commonly used of the three writing systems.
 
@@ -121,7 +121,7 @@ In addition, to determine if there is a significant difference between the distr
 
 Via these tests, it is possible to answer the questions that were proposed at the beginning of this report. 
 
-### Part 4.1: Two-Sample T-Test for Difference in Writing System Distribution Means:
+### Part 4.1: Two-Sample T-Test for Difference in Writing System Distribution Means
 
 According to [The University of Austin, Texas](https://sites.utexas.edu/sos/guided/inferential/numeric/onecat/2-groups/independent/two-sample-t/), in order to run a Two-Sample T-Test, there are some assumptions to be made:
 
@@ -155,7 +155,7 @@ In this instance, the variances of the log-transformed Hiragana counts and log-t
 
 In summary, using the log-transformation, it is reasonable to assume independence and normality (assumptions 1 and 2). However, it cannot be definitively assumed that the variances between each writing system are equal. 
 
-To be safe, instead of the common Student's t-Test, one can use the Welch t-Test. This version of the t-Test still assumes normality and independence, but does NOT require equal variances between the two distributions in question. This version of the t-Test is perfect for our needs. 
+To be safe, instead of the common Student's t-Test (which requires all three assumptions to be met in order to be accurate), one can use the Welch t-Test. This version of the t-Test still assumes normality and independence, but does NOT require equal variances between the two distributions in question. This version of the t-Test is perfect for our needs. 
 
 With this preliminary screening complete, it is time to perform the Two-Sample T-Tests for Difference in Means. 
 
@@ -169,20 +169,18 @@ To complete this step, we used the `t.test()` function in R—of which calculate
 | 2 | $\mu_1$ | N/A | $\mu_2$ | [-0.5614726,  1.6296081] | 0.3299 |
 | 3 | N/A | $\mu_1$ | $\mu_2$ | [-2.20732265, -0.01525716] | 0.04705 |
 
-Based on these results, it seems that there is a statistically significant difference in the means between the distributions of Katakao be safe, instead of the common Student's t-Test, one can use the Welch t-Test. This version of the t-Test still assumes normality and independence, but does NOT require equal variances between the two distributions in question. This version of the t-Test is perfect for our needs. 
-
-With this preliminary screening complete, it is time to perform the Two-Sample T-Tests for Difference in Means. 
-
-For each of these tests, the null hypothesis is that $\mu_1 = \mu_2$, and the alternate hypothesis is that $\mu_1 \neq \mu_2$. The results of these t-tests will be compared to an alpha level of $\alpha = 0.05$. 
-
-To complete this step, we used the `t.test()` function in R—of which calculates The values of $\mu_1$ and $\mu_2$, as well as the results of these tests, are the following:
-
-| Test # | Hiragana | Katakana | Kanji na and the remaining two writing systems. However, interestingly, there is no evidence to suggest that the the distributions of Hiragana and Kanji are different for Japanese novels obtained on Gutenberg and Aozora.
+Based on these results, it seems that there is a statistically significant difference in the means between the distributions of Katakana and the remaining two writing systems. However, interestingly, there is no evidence to suggest that the the distributions of Hiragana and Kanji are different for Japanese novels obtained on Gutenberg and Aozora.
 
 The positive values in the 95% Confidence Interval for Test 1 seems to suggest that the mean number of Hiragana characters is larger than the mean number of Katakana characters. Likewise, the negative values in the 95% Confidence Interval for Test 3 suggest a higher mean number of Kanji than Katakana characters. In hindsight, this result makes sense. According to [Tae Kim's online Japanese Learning resource "A Guide to Learn Japanese Grammar"](https://guidetojapanese.org/learn/category/grammar-guide/the-writing-system/), despite being a phonetic writing system like Hiragana, Katakana's main purpose is to translate western words into Japanese. This contrasts the wider usages of Hiragana and Kanji in Japanese, as both systems are essential for written grammar. Thus, since Katakana is used less often compared to both Hiragana and Kanji, it makes sense as to why the mean for Katakana is statistically lower than that of both Hiragana and Kanji. 
 
+Hiragna and Kanji's use in written Japanese grammar also partially explains the lack of evidence against a difference in their means. If both writing systems are needed in order to write anything formally, it makes sense that they would be used at similar rates across all Japanese novels. 
 
-### Part 4.2: Two-Sample T-Test for Difference in Hosting Website Distribution Means(Character Counts):
+While it is interesting to see how the distributions of Hiragana, Katakana, and Kanji differ in general, this analysis can be taken one step further. We will now see whether the distributions of characters in Japanese novels are different if they are sourced from Gutenberg or Aozora. 
+
+
+### Part 4.2: Two-Sample T-Test for Difference in Hosting Website Distribution Means(Character Counts)
+
+Once again, since we are taking a two-sample t-test, we must check if the assumptions stated previously are met. Each row in our dataset represents a different novel, so it is reasonable to assume independence. Secondly, total character counts may not be perfectly normal, but t-tests are robust with samples of this size. Finally, because the sample variances for Aozora and Gutenberg differ substantially (Aozora ≈ 9.35×10⁸ characters² vs. Gutenberg ≈ 5.17×10⁹ characters²), the equal-variance assumption is not satisfied. However, since Welch’s two-sample t-test does not require equal variances and each novel represents an independent observation, it is still appropriate to proceed with the test.
 
 Based on the results of the Welch two-sample t-test, there is strong statistical evidence of a difference in the mean total number of characters between novels obtained from Aozora and those obtained from Project Gutenberg. The 95% confidence interval for the difference in means [−149,882.97, −42,401.83] does not contain zero, and the associated p-value of 0.00209 is far below our significance threshold of 𝛼=0.05. Together, these findings indicate that we reject the null hypothesis that the two websites produce novels with similar average lengths.
 
@@ -190,7 +188,20 @@ Furthermore, the sample means provide additional insight into the practical magn
 
 Overall, the analysis demonstrates a clear and statistically significant difference in total character count between the two sources, with Gutenberg novels being markedly longer on average.
 
-### Part 4.3 Two-Sample T-Test for Difference in Hosting Website Distribution Means(Writing Systems):
+### Part 4.3 Two-Sample T-Test for Difference in Hosting Website Distribution Means(Writing Systems)
+
+In addition to a generalized difference in mean characters, we analyzed whether the mean count of each writing system differs between the two sources.
+
+As per before, we checked the assumptions needed to run a t-test. Each row represents a different novel, so the observations are independent. Secondly, raw writing-system counts may not be perfectly normal, but Welch’s t-test is robust for small sample sizes. Finally, we checked the variances between all 6 subsets:
+
+| Writing System | Gutenberg Variance | Aozora Variance |
+| --------- | ---------  | ---------  |
+| Hiragana | 2504570454 | 562821344 | 
+| Katakana | 251248916 | 4628510 |
+| Kanji | 588466075 | 84030145 | 
+
+
+The variances for Hiragana, Katakana, and Kanji all differ greatly between Aozora and Gutenberg, meaning the equal-variance assumption is not met. However, since Welch’s t-test does not require equal variances and the observations are independent, it is still appropriate to proceed.
 
 Based on the results of the three Welch two-sample t-tests, there is strong statistical evidence that the mean counts of Hiragana, Katakana, and Kanji differ significantly between novels obtained from Aozora and those obtained from Project Gutenberg. In all three cases, the 95% confidence intervals for the difference in means do not contain zero, and each corresponding p-value falls below the significance threshold of 𝛼=0.05. These results lead us to reject the null hypotheses across all writing systems and conclude that the average number of characters in each category is significantly different between the two websites.
 
@@ -206,25 +217,18 @@ Overall, the statistical evidence shows that Gutenberg novels contain significan
 | 2     | Katakana       | 1,446.7        | 15,947.7          | [-25,882.305, -3,119.695]          | 0.01792   |
 | 3     | Kanji          | 6,277.2        | 32,547.3          | [-44,220.753, -8,319.447]          | 0.007955  |
 
-## Part 5: Conclusion:
+## Part 5: Conclusion
 
-  The purpose of this analysis was to determine whether statistically significant differences exist in writing system usage such as Hiragana, Katakana, and Kanji both within Japanese novels and between novels sourced from websites Aozora and Gutenberg. After applying appropriate data cleaning, using log transformed data, and Welch two sampled t-tests, we evaluated differences in mean character counts while accounting for independence, skewed distributions and unequal variances. 
+ The purpose of this analysis was to determine whether statistically significant differences exist in writing system usage such as Hiragana, Katakana, and Kanji both within Japanese novels and between novels sourced from websites Aozora and Gutenberg. After applying appropriate data cleaning, using log transformed data, and Welch two sampled t-tests, we evaluated differences in mean character counts while accounting for independence, skewed distributions and unequal variances. 
   When testing whether the mean counts of Hiragana, Katakana, and Kanji differed across the entire collection of novels, we found significant information. Comparing Hiragana and Katakana, a 95% confidence interval of [0.5099,2.7808] and a p-value of 0.00565, indicating a statistically significant difference in mean usage between the two systems. The positive interval suggests that Hiragana occurs more frequently than Katakana on average. When comparing Hiragana and Kanji, the 96% confidence interval of[-0.5615, 1.6296] and a p-value of 0.3299 show no statistically significant difference between their mean usages. When comparing Katakana and Kanji, a confidence interval of [-2.2073,-0.0153] was produced with a p-value of 0.04705, indicating a statistically significant difference, with Kanji occuring more frequently than Katakana. These results suggest that Katakana is used significantly less often compared to Hiragana and Kanji. 
   When testing character counts, strong evidence of a difference in total character count between Aozora and Project Gutenberg novels was found. The 95% confidence interval [-149,882.97,-42,401.83] excludes zero, with a p-value of 0.00209, leads us to reject the null hypothesis of equal mean lengths. It is evident that Gutenberg hosts significantly larger works. Overall, the test confirms a clear difference in novel length between the two sources.
   When testing writing systems, significant differences in counts in the three writing systems were found between Aozora and Gutenberg novels. All 95% confidence intervals exclude zero, along with all p-values below 0.05, leading us to reject the null hypothesis. Gutenberg novels have much higher averages, reflecting that Gutenberg hosts longer and full length works, while Aozora includes shorter texts. This confirms that Gutenberg texts are longer and denser across all major Japanese writing systems.
   It is interesting to note that Katakana is consistently less frequent than both Hiragana and Kanji. Future steps could include analyzing other collections of texts such as news articles and screenplays examining changes in writing systems in different genres and usage over time. By doing so we can better understand stylistic trends in Japanese writings.
-  
 
-
-## Part 6: Team Member Contributions:
+## Part 6: Team Member Contributions
 1. Pankshi Parekar: Created/Organized the GitHub repository. Created/Organized the Final Report. Ran the Simple Random Selections for choosing the novels for analysis, and prepared the `data` folder in the GitHub repository accordingly. Wrote the Abstract, as well as parts 1, 3, 4.1, and the opening of section 4 in the report. Created Figures 1-6.
 
-2. Isabella Perez: Wrote the Introduction and Conclusion sections of the report, as well as parts in the Preliminary Analysis.
+2. Isabella Perez: Wrote the Introduction and Conclusion sections of the report, as well as parts 3.
 
-3. Ulices Ramirez Lopez:  Built an R Markdown workflow to automatically clean the Japanese text files from Aozora and Gutenberg. The main goal was to remove unnecessary parts like headers, footers, and any non-Japanese or English characters. Did this by reading each .txt file, converting the text to UTF-8, cutting out lines before and after certain markers (like ----- and 底本：), and deleting inline Aozora markup such as ［＃...］, 《...》, and ｜. After cleaning, the script counted only Japanese characters (kanji, hiragana, and katakana) to measure how much of the text remained. Finally, it saved two CSV summaries, one for Aozora and one for Gutenberg — showing the cleaned results for each file.
-
-To analyze differences between Japanese texts hosted on Aozora and Project Gutenberg, I conducted a series of Welch two-sample t-tests, saved as separate R Markdown files in the T-Tests folder, and then incorporated their conclusions into the final report. First, I ran three t-tests comparing the mean counts of Hiragana, Katakana, and Kanji characters between the two websites. In addition to these, I performed a separate t-test on the total number of characters per novel, treating it as an overall measure of text length. In all cases, the variances between Aozora and Gutenberg differed substantially, so Welch’s t-test—which does not assume equal variances—was used. The results showed statistically significant differences for each writing system and for total character count, with Gutenberg novels consistently containing far more Hiragana, Katakana, Kanji, and overall characters than Aozora novels. These findings were summarized in tables and integrated into the final report, supporting the conclusion that Aozora and Gutenberg host structurally different types of Japanese texts, with Gutenberg’s works being significantly longer and denser.
-
-
-
+3. Ulices Ramirez Lopez:  Built an R Markdown workflow to automatically clean the Japanese text files from Aozora and Gutenberg. The main goal was to remove unnecessary parts like headers, footers, and any non-Japanese or English characters. Did this by reading each .txt file, converting the text to UTF-8, cutting out lines before and after certain markers (like ----- and 底本：), and deleting inline Aozora markup such as ［＃...］, 《...》, and ｜. After cleaning, the script counted only Japanese characters (kanji, hiragana, and katakana) to measure how much of the text remained. Finally, it saved two CSV summaries, one for Aozora and one for Gutenberg — showing the cleaned results for each file. To analyze differences between Japanese texts hosted on Aozora and Project Gutenberg, I conducted a series of Welch two-sample t-tests, saved as separate R Markdown files in the T-Tests folder, and then incorporated their conclusions into the final report. First, I ran three t-tests comparing the mean counts of Hiragana, Katakana, and Kanji characters between the two websites. In addition to these, I performed a separate t-test on the total number of characters per novel, treating it as an overall measure of text length. In all cases, the variances between Aozora and Gutenberg differed substantially, so Welch’s t-test—which does not assume equal variances—was used. The results showed statistically significant differences for each writing system and for total character count, with Gutenberg novels consistently containing far more Hiragana, Katakana, Kanji, and overall characters than Aozora novels. These findings were summarized in tables and integrated into the final report, supporting the conclusion that Aozora and Gutenberg host structurally different types of Japanese texts, with Gutenberg’s works being significantly longer and denser.
 
